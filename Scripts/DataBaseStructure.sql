@@ -1,0 +1,63 @@
+CREATE DATABASE AruKami
+GO 
+USE AruKami
+GO
+
+CREATE TABLE [User] (
+	[IdCard] NUMERIC(20) NOT NULL,
+	[Username] VARCHAR(25) NOT NULL UNIQUE,
+	[PasswordHash] BINARY(64) NOT NULL,
+	[FirstName] VARCHAR(50) NOT NULL,
+	[MiddleName] VARCHAR(50),
+	[LastName] VARCHAR(50) NOT NULL,
+	[SecondLastName] VARCHAR(50),
+	[Salt] UNIQUEIDENTIFIER 
+	CONSTRAINT PK_IdCard PRIMARY KEY(IdCard)
+);
+GO
+
+CREATE TABLE [Country] (
+  [IdCountry] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL
+  CONSTRAINT PK_IdCountry PRIMARY KEY(IdCountry)
+);
+GO
+
+CREATE TABLE [Province] (
+  [IdProvince] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL,
+  [IdCountry] INT NOT NULL
+  CONSTRAINT PK_IdProvince PRIMARY KEY(IdProvince)
+  CONSTRAINT Fk_IdCountry FOREIGN KEY(IdCountry) REFERENCES [Country]
+);
+GO
+
+CREATE TABLE [Canton] (
+  [IdCanton] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL,
+  [IdProvince] INT NOT NULL
+  CONSTRAINT PK_IdCanton PRIMARY KEY(IdCanton),
+  CONSTRAINT FK_IdProvince FOREIGN KEY(IdProvince) REFERENCES [Province]
+);
+GO
+
+CREATE TABLE [District] (
+  [IdDistrict] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL,
+  [IdCanton] INT NOT NULL
+  CONSTRAINT PK_IdDistrict PRIMARY KEY(IdDistrict),
+  CONSTRAINT FK_IdCanton FOREIGN KEY(IdCanton) REFERENCES [Canton]
+);
+GO
+
+CREATE TABLE [Hiker](
+	[IdCard] NUMERIC(20) NOT NULL,
+	[Gender] CHAR(1) NOT NULL CHECK(Gender = 'M' OR Gender = 'F'),
+	[BirthDate] DATE NOT NULL,
+	[Nationality] INT NOT NULL,
+	[AccountNumber] NUMERIC(20) NOT NULL
+	CONSTRAINT PK_HikerIdCard PRIMARY KEY(IdCard),
+	CONSTRAINT FK_UserIdCard FOREIGN KEY(IdCard) REFERENCES [User],
+	CONSTRAINT FK_UserCountry FOREIGN KEY(Nationality) REFERENCES [Country]
+)
+GO
