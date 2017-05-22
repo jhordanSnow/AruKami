@@ -61,3 +61,31 @@ CREATE TABLE [Hiker](
 	CONSTRAINT FK_UserCountry FOREIGN KEY(Nationality) REFERENCES [Country]
 )
 GO
+
+CREATE TABLE [Difficulty](
+	[IdDifficulty] INT NOT NULL IDENTITY(1,1),
+	[Name] VARCHAR(25) NOT NULL,
+	CONSTRAINT PK_Difficulty PRIMARY KEY(IdDifficulty)
+);
+GO
+
+CREATE TABLE [HikeType](
+	[IdType] INT NOT NULL IDENTITY(1,1),
+	[Name] VARCHAR(25) NOT NULL,
+	CONSTRAINT PK_HikeType PRIMARY KEY(IdType)
+);
+GO
+
+CREATE TABLE [Price](
+	[IdPrice] INT NOT NULL IDENTITY(1,1),
+	[Name] VARCHAR(25) NOT NULL,
+	CONSTRAINT PK_Price PRIMARY KEY(IdPrice)
+);
+GO
+
+CREATE TABLE [Quality](
+	[IdQuality] INT NOT NULL IDENTITY(1,1),
+	[Name] VARCHAR(25) NOT NULL,
+	CONSTRAINT PK_Quality PRIMARY KEY(IdQuality)
+);
+GO
