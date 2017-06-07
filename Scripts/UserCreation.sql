@@ -12,7 +12,15 @@
 --CREATE USER AruHiker FOR LOGIN AruHiker
 --GO
 
+---- Permisos del usuario hiker
+--GRANT EXEC ON [PR_CreateHiker] TO AruHiker
+--GRANT EXEC ON [PR_HikerLogin] TO AruHiker
+--GRANT SELECT ON [Nationalities] TO AruHiker
+--GRANT SELECT ON [Hike_Difficulty] TO AruHiker
+--GRANT SELECT ON [Hike_Quality] TO AruHiker
+--GRANT SELECT ON [Hike_Price] TO AruHiker
+--GRANT SELECT ON [Hike_Type] TO AruHiker
 
---GRANT EXEC ON [PR_CreateHiker] to AruHiker
---GRANT EXEC ON [PR_HikerLogin] to AruHiker
+---- Permisos del usuario administrador
+--GRANT EXEC ON [] to AruAdmin
 GO

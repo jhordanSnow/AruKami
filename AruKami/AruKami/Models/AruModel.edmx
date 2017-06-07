@@ -4,7 +4,57 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AruKamiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AruKamiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.Hike_Difficulty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Hike_Difficulty">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.Hike_Price' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Hike_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.Hike_Quality' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Hike_Quality">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.Hike_Type' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Hike_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Nationalities">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <Function Name="PR_CreateHiker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCard" Type="numeric" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
@@ -24,7 +74,38 @@
           <Parameter Name="Password" Type="nvarchar" Mode="In" />
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
-        <EntityContainer Name="AruKamiModelStoreContainer" />
+        <EntityContainer Name="AruKamiModelStoreContainer">
+          <EntitySet Name="Hike_Difficulty" EntityType="Self.Hike_Difficulty" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Hike_Difficulty].[Id] AS [Id], 
+    [Hike_Difficulty].[Name] AS [Name]
+    FROM [dbo].[Hike_Difficulty] AS [Hike_Difficulty]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Hike_Price" EntityType="Self.Hike_Price" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Hike_Price].[Id] AS [Id], 
+    [Hike_Price].[Name] AS [Name]
+    FROM [dbo].[Hike_Price] AS [Hike_Price]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Hike_Quality" EntityType="Self.Hike_Quality" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Hike_Quality].[Id] AS [Id], 
+    [Hike_Quality].[Name] AS [Name]
+    FROM [dbo].[Hike_Quality] AS [Hike_Quality]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Hike_Type" EntityType="Self.Hike_Type" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Hike_Type].[Id] AS [Id], 
+    [Hike_Type].[Name] AS [Name]
+    FROM [dbo].[Hike_Type] AS [Hike_Type]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Nationalities" EntityType="Self.Nationalities" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Nationalities].[Id] AS [Id], 
+    [Nationalities].[Name] AS [Name]
+    FROM [dbo].[Nationalities] AS [Nationalities]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -49,7 +130,52 @@
             <Parameter Name="Password" Mode="In" Type="String" />
             <Parameter Name="responseMessage" Mode="InOut" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Hike_Difficulty" EntityType="AruKamiModel.Hike_Difficulty" />
+          <EntitySet Name="Hike_Price" EntityType="AruKamiModel.Hike_Price" />
+          <EntitySet Name="Hike_Quality" EntityType="AruKamiModel.Hike_Quality" />
+          <EntitySet Name="Hike_Type" EntityType="AruKamiModel.Hike_Type" />
+          <EntitySet Name="Nationalities" EntityType="AruKamiModel.Nationalities" />
         </EntityContainer>
+        <EntityType Name="Hike_Difficulty">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Hike_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Hike_Quality">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Hike_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Nationalities">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -58,6 +184,46 @@
         <EntityContainerMapping StorageEntityContainer="AruKamiModelStoreContainer" CdmEntityContainer="AruKamiEntities" >
           <FunctionImportMapping FunctionImportName="PR_CreateHiker" FunctionName="AruKamiModel.Store.PR_CreateHiker" />
           <FunctionImportMapping FunctionImportName="PR_HikerLogin" FunctionName="AruKamiModel.Store.PR_HikerLogin" />
+          <EntitySetMapping Name="Hike_Difficulty">
+            <EntityTypeMapping TypeName="AruKamiModel.Hike_Difficulty">
+              <MappingFragment StoreEntitySet="Hike_Difficulty">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hike_Price">
+            <EntityTypeMapping TypeName="AruKamiModel.Hike_Price">
+              <MappingFragment StoreEntitySet="Hike_Price">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hike_Quality">
+            <EntityTypeMapping TypeName="AruKamiModel.Hike_Quality">
+              <MappingFragment StoreEntitySet="Hike_Quality">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hike_Type">
+            <EntityTypeMapping TypeName="AruKamiModel.Hike_Type">
+              <MappingFragment StoreEntitySet="Hike_Type">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nationalities">
+            <EntityTypeMapping TypeName="AruKamiModel.Nationalities">
+              <MappingFragment StoreEntitySet="Nationalities">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

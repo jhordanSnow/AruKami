@@ -27,6 +27,11 @@ namespace AruKami.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Hike_Difficulty> Hike_Difficulty { get; set; }
+        public virtual DbSet<Hike_Price> Hike_Price { get; set; }
+        public virtual DbSet<Hike_Quality> Hike_Quality { get; set; }
+        public virtual DbSet<Hike_Type> Hike_Type { get; set; }
+        public virtual DbSet<Nationalities> Nationalities { get; set; }
     
         public virtual int PR_CreateHiker(Nullable<decimal> idCard, string username, string password, string firstName, string middleName, string lastName, string secondLastName, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, Nullable<decimal> accountNumber, ObjectParameter responseMessage)
         {
