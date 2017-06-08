@@ -10,6 +10,7 @@
         <EntityTypeShape EntityType="AruKamiModel.Hike_Quality" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="AruKamiModel.Hike_Type" Width="1.5" PointX="4.75" PointY="3.75" />
         <EntityTypeShape EntityType="AruKamiModel.Nationalities" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AruKamiModel.Districts" Width="1.5" PointX="6.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -5,8 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AruKamiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Difficulty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Districts' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Districts">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="156" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Difficulty' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Difficulty">
           <Key>
             <PropertyRef Name="Id" />
@@ -15,8 +25,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Difficulty' does not have a prima
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Price' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Price' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Price">
           <Key>
             <PropertyRef Name="Id" />
@@ -25,8 +35,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Price' does not have a primary ke
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Quality' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Quality' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Quality">
           <Key>
             <PropertyRef Name="Id" />
@@ -35,8 +45,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Quality' does not have a primary 
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Type' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Type' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Type">
           <Key>
             <PropertyRef Name="Id" />
@@ -45,8 +55,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Type' does not have a primary key
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Nationalities' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Nationalities">
           <Key>
             <PropertyRef Name="Id" />
@@ -75,6 +85,12 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
         <EntityContainer Name="AruKamiModelStoreContainer">
+          <EntitySet Name="Districts" EntityType="Self.Districts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Districts].[Id] AS [Id], 
+    [Districts].[Name] AS [Name]
+    FROM [dbo].[Districts] AS [Districts]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Hike_Difficulty" EntityType="Self.Hike_Difficulty" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Hike_Difficulty].[Id] AS [Id], 
@@ -135,6 +151,7 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           <EntitySet Name="Hike_Quality" EntityType="AruKamiModel.Hike_Quality" />
           <EntitySet Name="Hike_Type" EntityType="AruKamiModel.Hike_Type" />
           <EntitySet Name="Nationalities" EntityType="AruKamiModel.Nationalities" />
+          <EntitySet Name="Districts" EntityType="AruKamiModel.Districts" />
         </EntityContainer>
         <EntityType Name="Hike_Difficulty">
           <Key>
@@ -175,6 +192,14 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Districts">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="156" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -219,6 +244,14 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           <EntitySetMapping Name="Nationalities">
             <EntityTypeMapping TypeName="AruKamiModel.Nationalities">
               <MappingFragment StoreEntitySet="Nationalities">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="AruKamiModel.Districts">
+              <MappingFragment StoreEntitySet="Districts">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

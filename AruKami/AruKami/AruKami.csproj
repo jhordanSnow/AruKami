@@ -204,6 +204,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AruModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Districts.cs">
+      <DependentUpon>AruModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HikerModel.cs" />
     <Compile Include="Models\Hike_Difficulty.cs">
       <DependentUpon>AruModel.tt</DependentUpon>

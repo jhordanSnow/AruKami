@@ -23,6 +23,13 @@ namespace AruKami.Controllers
             return db.Nationalities.OrderBy(m => m.Name);
         }
 
+        // GET: api/Districts
+        [Route("api/Catalog/Districts")]
+        public IQueryable<Districts> GetDistricts()
+        {
+            return db.Districts.OrderBy(m => m.Name);
+        }
+
         // GET: api/Catalog/Difficulties
         [Route("api/Catalog/Difficulties")]
         public IQueryable<Hike_Difficulty> GetDifficulties()
