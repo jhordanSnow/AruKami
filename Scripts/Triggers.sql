@@ -587,11 +587,60 @@ AS BEGIN
 					     ELSE 'Other'
 					     END)
 
-	SET @description = @idTypeName + @idObjectName + ' is now inactive'
+	SET @description = @idTypeName + @idObjectName + ' is now INACTIVE'
 
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
 GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TRIGGER DeleteInactive
+	ON dbo.Inactives
+	AFTER DELETE
+AS BEGIN
+	SET NOCOUNT ON
+	DECLARE @idObjectDeleted INT;
+	DECLARE @idTypeDeleted INT;
+	DECLARE @idObjectName VARCHAR(50);
+	DECLARE @idTypeName VARCHAR(50);
+	DECLARE @description VARCHAR(MAX);
+	DECLARE @creator VARCHAR(50);
+	DECLARE @date DATETIME;
+	DECLARE @type VARCHAR(50);
+    DECLARE @table VARCHAR(50);
+
+	SET @creator = SYSTEM_USER
+	SET @date = GETDATE()
+	SET @type = 'Delete'
+    SET @table = 'Inactives'
+
+	SELECT @idObjectDeleted = IdObject,
+		   @idTypeDeleted = IdType
+	FROM DELETED
+
+	SET @idTypeName = (SELECT CASE @idTypeDeleted
+					   WHEN 1 THEN 'The quality level named '
+					   WHEN 2 THEN 'The price level named '
+					   WHEN 3 THEN 'The difficulty level named '
+					   WHEN 4 THEN 'The hike type named '
+					   WHEN 5 THEN 'The hiker with the IdCard '
+					   ELSE 'Other '
+					   END)
+
+	SET @idObjectName = (SELECT CASE @idTypeDeleted
+					     WHEN 1 THEN (SELECT Q.[Name] FROM Quality Q WHERE Q.IdQuality = @idObjectDeleted)
+					     WHEN 2 THEN (SELECT P.[Name] FROM Price P WHERE P.IdPrice = @idObjectDeleted)
+					     WHEN 3 THEN (SELECT D.[Name] FROM Difficulty D WHERE D.IdDifficulty = @idObjectDeleted)
+					     WHEN 4 THEN (SELECT HT.[Name] FROM HikeType HT WHERE HT.IdType = @idObjectDeleted)
+					     WHEN 5 THEN CONVERT(NVARCHAR(MAX),@idObjectDeleted)
+					     ELSE 'Other'
+					     END)
+
+	SET @description = @idTypeName + @idObjectName + ' is now ACTIVE'
+
+	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
+	VALUES (@description , @creator, @type , @table , @date)
+END
+GO
 

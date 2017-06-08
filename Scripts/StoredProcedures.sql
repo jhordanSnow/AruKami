@@ -126,3 +126,38 @@ END
 -- 3 -> Difficulty
 -- 4 -> HikeType
 -- 5 -> Hiker
+
+CREATE PROCEDURE [PR_ActiveQuality](
+	@idQuality INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idQuality AND IdType = 1
+END
+GO
+
+CREATE PROCEDURE [PR_ActivePrice](
+	@idPrice INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idPrice AND IdType = 2
+END
+GO
+
+CREATE PROCEDURE [PR_ActiveDifficulty](
+	@idDifficulty INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idDifficulty AND IdType = 3
+END
+GO
+
+CREATE PROCEDURE [PR_ActiveHikeType](
+	@idHikeType INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idHikeType AND IdType = 4
+END
+GO
+
+CREATE PROCEDURE [PR_ActiveHiker](
+	@idHiker INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idHiker AND IdType = 5
+END
+
