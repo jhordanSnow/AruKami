@@ -31,7 +31,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -66,7 +66,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER NewDifficulty
@@ -95,7 +95,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER NewPrice
@@ -124,7 +124,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER NewQuality
@@ -153,7 +153,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER NewHikeType
@@ -182,7 +182,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER DeleteDifficulty
@@ -211,7 +211,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER DeletePrice
@@ -240,7 +240,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER DeleteQuality
@@ -269,7 +269,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER DeleteHikeType
@@ -298,7 +298,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER UpdateDifficulty
@@ -331,7 +331,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER UpdatePrice
@@ -364,7 +364,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER UpdateQuality
@@ -397,7 +397,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER UpdateHikeType
@@ -430,7 +430,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
- 
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER UpdateUser
@@ -484,7 +484,7 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER UpdateHiker
@@ -542,5 +542,56 @@ AS BEGIN
 	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
 	VALUES (@description , @creator, @type , @table , @date)
 END
-
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TRIGGER NewInactive
+	ON dbo.Inactives
+	AFTER INSERT
+AS BEGIN
+	SET NOCOUNT ON
+	DECLARE @idObjectInserted INT;
+	DECLARE @idTypeInserted INT;
+	DECLARE @idObjectName VARCHAR(50);
+	DECLARE @idTypeName VARCHAR(50);
+	DECLARE @description VARCHAR(MAX);
+	DECLARE @creator VARCHAR(50);
+	DECLARE @date DATETIME;
+	DECLARE @type VARCHAR(50);
+    DECLARE @table VARCHAR(50);
+
+	SET @creator = SYSTEM_USER
+	SET @date = GETDATE()
+	SET @type = 'Insert'
+    SET @table = 'Inactives'
+
+	SELECT @idObjectInserted = IdObject,
+		   @idTypeInserted = IdType
+	FROM INSERTED
+
+	SET @idTypeName = (SELECT CASE @idTypeInserted
+					   WHEN 1 THEN 'The quality level named '
+					   WHEN 2 THEN 'The price level named '
+					   WHEN 3 THEN 'The difficulty level named '
+					   WHEN 4 THEN 'The hike type named '
+					   WHEN 5 THEN 'The hiker with the IdCard '
+					   ELSE 'Other '
+					   END)
+
+	SET @idObjectName = (SELECT CASE @idTypeInserted
+					     WHEN 1 THEN (SELECT Q.[Name] FROM Quality Q WHERE Q.IdQuality = @idObjectInserted)
+					     WHEN 2 THEN (SELECT P.[Name] FROM Price P WHERE P.IdPrice = @idObjectInserted)
+					     WHEN 3 THEN (SELECT D.[Name] FROM Difficulty D WHERE D.IdDifficulty = @idObjectInserted)
+					     WHEN 4 THEN (SELECT HT.[Name] FROM HikeType HT WHERE HT.IdType = @idObjectInserted)
+					     WHEN 5 THEN CONVERT(NVARCHAR(MAX),@idObjectInserted)
+					     ELSE 'Other'
+					     END)
+
+	SET @description = @idTypeName + @idObjectName + ' is now inactive'
+
+	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
+	VALUES (@description , @creator, @type , @table , @date)
+END
+GO
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+

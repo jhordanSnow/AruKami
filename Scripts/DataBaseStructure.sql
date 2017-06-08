@@ -102,3 +102,40 @@ CREATE TABLE [Quality](
 	CONSTRAINT PK_Quality PRIMARY KEY(IdQuality)
 );
 GO
+
+CREATE TABLE [Hike] (
+  [IdHike] INT IDENTITY(1,1) NOT NULL,
+  [StarDate] DATE NOT NULL,
+  [EndDate] DATE NOT NULL,
+  [Route] VARCHAR(MAX) NOT NULL,
+  [Photo] INT,
+  [District] INT NOT NULL,
+  [QualityLevel] INT NOT NULL,
+  [PriceLevel] INT NOT NULL,
+  [Difficulty] INT NOT NULL,
+  [HikeType] INT NOT NULL,
+  [StartPoint] INT NOT NULL,
+  [EndPoint] INT NOT NULL,
+  CONSTRAINT PK_IdHike PRIMARY KEY(IdHike),
+  CONSTRAINT FK_District FOREIGN KEY(District) REFERENCES [District],
+  CONSTRAINT FK_Quality FOREIGN KEY(QualityLevel) REFERENCES [Quality],
+  CONSTRAINT FK_Price FOREIGN KEY(PriceLevel) REFERENCES [Price],
+  CONSTRAINT FK_Difficulty FOREIGN KEY(Difficulty) REFERENCES [Difficulty],
+  CONSTRAINT FK_HikingType FOREIGN KEY(HikeType) REFERENCES [HikeType]
+);
+GO
+
+CREATE TABLE [HikePoints] (
+  [IdPoint] INT IDENTITY (1,1) NOT NULL,
+  [Latitude] DECIMAL(12,9) NOT NULL,
+  [Longitude] DECIMAL(12,9) NOT NULL,
+  CONSTRAINT PK_IdPoint PRIMARY KEY(IdPoint)
+);
+GO
+
+CREATE TABLE [Inactives](
+	[IdObject] NUMERIC(20) NOT NULL,
+	[IdType] NUMERIC(1) NOT NULL,
+	CONSTRAINT PK_IdObjectType PRIMARY KEY(IdObject,IdType)
+);
+

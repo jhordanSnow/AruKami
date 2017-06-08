@@ -78,3 +78,51 @@ CREATE PROCEDURE [PR_HikerLogin](
 	ELSE
 		SET @responseMessage = 'Invalid Login'
 END
+GO
+
+CREATE PROCEDURE [PR_InactiveQuality](
+	@idQuality INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idQuality,1)
+END
+GO
+
+CREATE PROCEDURE [PR_InactivePrice](
+	@idPrice INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idPrice,2)
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveDifficulty](
+	@idDifficulty INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idDifficulty,3)
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveHikeType](
+	@idHikeType INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idHikeType,4)
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveHiker](
+	@idHiker INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idHiker,5)
+END
+
+-- EL SIGNIFICADO DE LOS VALORES DE LA COLUMNA IdType
+-- DE LA TABLA Inactives SON LOS SIGUIENTES:
+-- 1 -> Quality
+-- 2 -> Price
+-- 3 -> Difficulty
+-- 4 -> HikeType
+-- 5 -> Hiker
