@@ -18,7 +18,6 @@
 --GRANT EXEC ON [PR_CreateHike] TO AruHiker
 --GRANT EXEC ON [PR_CreatePoint] TO AruHiker
 --GRANT SELECT ON [Nationalities] TO AruHiker
---GRANT SELECT ON [Districts] TO AruHiker
 --GRANT SELECT ON [Hike_Difficulty] TO AruHiker
 --GRANT SELECT ON [Hike_Quality] TO AruHiker
 --GRANT SELECT ON [Hike_Price] TO AruHiker

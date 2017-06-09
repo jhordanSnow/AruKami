@@ -18,10 +18,3 @@ GO
 CREATE VIEW [Hike_Type] AS
 SELECT IdType AS [Id], [Name] FROM HikeType
 GO
-
-CREATE VIEW [Districts] AS
-SELECT D.IdDistrict AS [Id], CONCAT(P.[Name],' - ' , C.[Name],' - ' ,D.[Name]) AS [Name] FROM Province P
-INNER JOIN Canton C ON p.IdProvince = C.IdProvince
-INNER JOIN District D ON C.IdCanton = D.IdCanton
-GO
-
