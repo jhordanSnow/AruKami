@@ -78,3 +78,130 @@ CREATE PROCEDURE [PR_HikerLogin](
 	ELSE
 		SET @responseMessage = 'Invalid Login'
 END
+GO
+
+CREATE PROCEDURE [PR_InactiveQuality](
+	@idQuality INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idQuality,1)
+END
+GO
+
+CREATE PROCEDURE [PR_InactivePrice](
+	@idPrice INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idPrice,2)
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveDifficulty](
+	@idDifficulty INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idDifficulty,3)
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveHikeType](
+	@idHikeType INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idHikeType,4)
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveHiker](
+	@idHiker INT
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idHiker,5)
+END
+
+-- EL SIGNIFICADO DE LOS VALORES DE LA COLUMNA IdType
+-- DE LA TABLA Inactives SON LOS SIGUIENTES:
+-- 1 -> Quality
+-- 2 -> Price
+-- 3 -> Difficulty
+-- 4 -> HikeType
+-- 5 -> Hiker
+
+CREATE PROCEDURE [PR_ActiveQuality](
+	@idQuality INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idQuality AND IdType = 1
+END
+GO
+
+CREATE PROCEDURE [PR_ActivePrice](
+	@idPrice INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idPrice AND IdType = 2
+END
+GO
+
+CREATE PROCEDURE [PR_ActiveDifficulty](
+	@idDifficulty INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idDifficulty AND IdType = 3
+END
+GO
+
+CREATE PROCEDURE [PR_ActiveHikeType](
+	@idHikeType INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idHikeType AND IdType = 4
+END
+GO
+
+CREATE PROCEDURE [PR_ActiveHiker](
+	@idHiker INT
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idHiker AND IdType = 5
+END
+GO
+
+CREATE PROCEDURE [PR_CreateHike](
+	@Name VARCHAR(100),
+	@StartDate DATE,
+	@EndDate DATE,
+	@Route VARCHAR(MAX),
+	@Photo VARBINARY(MAX) = NULL,
+	@District INT,
+	@QualityLevel INT,
+	@PriceLevel INT,
+	@Difficulty INT,
+	@HikeType INT,
+	@StartPoint INT,
+	@EndPoint INT,
+	@responseMessage NVARCHAR(250) OUTPUT
+)AS BEGIN
+	BEGIN TRY
+		INSERT INTO Hike([Name],StartDate, EndDate, [Route], Photo, District, QualityLevel, PriceLevel, Difficulty, HikeType, StartPoint, [EndPoint])
+			 VALUES (@Name, @StartDate, @EndDate, @Route, @Photo, @District, @QualityLevel, @PriceLevel, @Difficulty, @HikeType, @StartPoint, @EndPoint)
+	SET @responseMessage = 'Success'
+    END TRY
+    BEGIN CATCH
+        SET @responseMessage = ERROR_MESSAGE()
+    END CATCH
+END
+GO
+
+CREATE PROCEDURE [PR_CreatePoint](
+	@Latitude VARCHAR(255),
+	@Longitude VARCHAR(255),
+	@IdPoint INT OUTPUT,
+	@responseMessage NVARCHAR(250) OUTPUT
+)AS BEGIN
+
+	BEGIN TRY
+		INSERT INTO GeoPoint(Latitude, Longitude)
+			 VALUES (@Latitude, @Longitude)
+		SET @responseMessage = 'Success'
+		SET @IdPoint = @@IDENTITY
+    END TRY
+    BEGIN CATCH
+        SET @responseMessage = ERROR_MESSAGE()
+    END CATCH
+END

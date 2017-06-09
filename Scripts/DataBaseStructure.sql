@@ -3,10 +3,14 @@ GO
 USE AruKami
 GO
 
+
+
 CREATE TABLE [EventLog] (
 	[IdEvent] INT IDENTITY(1,1) NOT NULL,
 	[Description] VARCHAR(MAX) NOT NULL,
 	[User] VARCHAR(255) NOT NULL,
+	[ChangeType] VARCHAR(255) NOT NULL,
+	[AffectedTable] VARCHAR(255) NOT NULL,
 	[Date] DATETIME NOT NULL DEFAULT GETDATE()
 	CONSTRAINT PK_IdEvent PRIMARY KEY(IdEvent)
 );
@@ -58,7 +62,6 @@ CREATE TABLE [District] (
   CONSTRAINT FK_IdCanton FOREIGN KEY(IdCanton) REFERENCES [Canton]
 );
 GO
-
 CREATE TABLE [Hiker](
 	[IdCard] NUMERIC(20) NOT NULL,
 	[Gender] CHAR(1) NOT NULL CHECK(Gender = 'M' OR Gender = 'F'),
@@ -98,3 +101,61 @@ CREATE TABLE [Quality](
 	CONSTRAINT PK_Quality PRIMARY KEY(IdQuality)
 );
 GO
+
+CREATE TABLE [Photo](
+	[IdPhoto] INT IDENTITY(1,1) NOT NULL,
+	[Photo] VARBINARY(MAX) NOT NULL
+	CONSTRAINT PK_Photo PRIMARY KEY(IdPhoto)
+);
+GO
+
+CREATE TABLE [GeoPoint](
+	[IdPoint] INT IDENTITY(1,1) NOT NULL,
+	[Latitude] VARCHAR(255) NOT NULL,
+	[Longitude] VARCHAR(255) NOT NULL
+	CONSTRAINT PK_GeoPoint PRIMARY KEY(IdPoint)
+);
+GO
+
+
+CREATE TABLE [Hike] (
+  [IdHike] INT IDENTITY(1,1) NOT NULL,
+  [Name] VARCHAR(100) NOT NULL,
+  [StartDate] DATE NOT NULL,
+  [EndDate] DATE NOT NULL,
+  [Route] VARCHAR(MAX) NOT NULL,
+  [Photo] VARBINARY(MAX),
+  [District] INT NOT NULL,
+  [QualityLevel] INT NOT NULL,
+  [PriceLevel] INT NOT NULL,
+  [Difficulty] INT NOT NULL,
+  [HikeType] INT NOT NULL,
+  [StartPoint] INT NOT NULL,
+  [EndPoint] INT NOT NULL,
+  CONSTRAINT PK_IdHike PRIMARY KEY(IdHike),
+  CONSTRAINT FK_District FOREIGN KEY(District) REFERENCES [District],
+  CONSTRAINT FK_Quality FOREIGN KEY(QualityLevel) REFERENCES [Quality],
+  CONSTRAINT FK_Price FOREIGN KEY(PriceLevel) REFERENCES [Price],
+  CONSTRAINT FK_Difficulty FOREIGN KEY(Difficulty) REFERENCES [Difficulty],
+  CONSTRAINT FK_HikingType FOREIGN KEY(HikeType) REFERENCES [HikeType],
+  CONSTRAINT FK_StartPoint FOREIGN KEY(StartPoint) REFERENCES [GeoPoint],
+  CONSTRAINT FK_EndPoint FOREIGN KEY([EndPoint]) REFERENCES [GeoPoint]
+);
+GO
+
+CREATE TABLE [HikePoints] (
+  [IdPoint] INT IDENTITY (1,1) NOT NULL,
+  [Latitude] DECIMAL(12,9) NOT NULL,
+  [Longitude] DECIMAL(12,9) NOT NULL,
+  CONSTRAINT PK_IdPoint PRIMARY KEY(IdPoint)
+);
+GO
+
+CREATE TABLE [Inactives](
+	[IdObject] NUMERIC(20) NOT NULL,
+	[IdType] NUMERIC(1) NOT NULL,
+	CONSTRAINT PK_IdObjectType PRIMARY KEY(IdObject,IdType)
+);
+GO
+
+

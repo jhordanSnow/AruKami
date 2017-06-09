@@ -12,7 +12,7 @@ namespace AruKami.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Nationalities
+    public partial class Districts
     {
         public int Id { get; set; }
         public string Name { get; set; }

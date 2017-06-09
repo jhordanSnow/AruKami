@@ -5,8 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AruKamiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Difficulty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Districts' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Districts">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="156" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Difficulty' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Difficulty">
           <Key>
             <PropertyRef Name="Id" />
@@ -15,8 +25,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Difficulty' does not have a prima
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Price' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Price' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Price">
           <Key>
             <PropertyRef Name="Id" />
@@ -25,8 +35,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Price' does not have a primary ke
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Quality' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Quality' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Quality">
           <Key>
             <PropertyRef Name="Id" />
@@ -35,8 +45,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Quality' does not have a primary 
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Hike_Type' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Hike_Type' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Hike_Type">
           <Key>
             <PropertyRef Name="Id" />
@@ -45,8 +55,8 @@ warning 6002: The table/view 'AruKami.dbo.Hike_Type' does not have a primary key
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AruKami.dbo.Nationalities' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Nationalities">
           <Key>
             <PropertyRef Name="Id" />
@@ -55,6 +65,21 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Function Name="PR_CreateHike" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+          <Parameter Name="Route" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Photo" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="District" Type="int" Mode="In" />
+          <Parameter Name="QualityLevel" Type="int" Mode="In" />
+          <Parameter Name="PriceLevel" Type="int" Mode="In" />
+          <Parameter Name="Difficulty" Type="int" Mode="In" />
+          <Parameter Name="HikeType" Type="int" Mode="In" />
+          <Parameter Name="StartPoint" Type="int" Mode="In" />
+          <Parameter Name="EndPoint" Type="int" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
         <Function Name="PR_CreateHiker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCard" Type="numeric" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
@@ -69,12 +94,24 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           <Parameter Name="AccountNumber" Type="numeric" Mode="In" />
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
+        <Function Name="PR_CreatePoint" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Latitude" Type="varchar" Mode="In" />
+          <Parameter Name="Longitude" Type="varchar" Mode="In" />
+          <Parameter Name="IdPoint" Type="int" Mode="InOut" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
         <Function Name="PR_HikerLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="nvarchar" Mode="In" />
           <Parameter Name="Password" Type="nvarchar" Mode="In" />
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
         <EntityContainer Name="AruKamiModelStoreContainer">
+          <EntitySet Name="Districts" EntityType="Self.Districts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Districts].[Id] AS [Id], 
+    [Districts].[Name] AS [Name]
+    FROM [dbo].[Districts] AS [Districts]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Hike_Difficulty" EntityType="Self.Hike_Difficulty" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Hike_Difficulty].[Id] AS [Id], 
@@ -110,7 +147,76 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AruKamiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="AruKamiEntities" annotation:LazyLoadingEnabled="true" >
+        <EntityType Name="Districts">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="156" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hike_Difficulty">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hike_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hike_Quality">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hike_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nationalities">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="AruKamiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Districts" EntityType="Self.Districts" />
+          <EntitySet Name="Hike_Difficulty" EntityType="Self.Hike_Difficulty" />
+          <EntitySet Name="Hike_Price" EntityType="Self.Hike_Price" />
+          <EntitySet Name="Hike_Quality" EntityType="Self.Hike_Quality" />
+          <EntitySet Name="Hike_Type" EntityType="Self.Hike_Type" />
+          <EntitySet Name="Nationalities" EntityType="Self.Nationalities" />
+          <FunctionImport Name="PR_CreateHike">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Route" Mode="In" Type="String" />
+            <Parameter Name="Photo" Mode="In" Type="Binary" />
+            <Parameter Name="District" Mode="In" Type="Int32" />
+            <Parameter Name="QualityLevel" Mode="In" Type="Int32" />
+            <Parameter Name="PriceLevel" Mode="In" Type="Int32" />
+            <Parameter Name="Difficulty" Mode="In" Type="Int32" />
+            <Parameter Name="HikeType" Mode="In" Type="Int32" />
+            <Parameter Name="StartPoint" Mode="In" Type="Int32" />
+            <Parameter Name="EndPoint" Mode="In" Type="Int32" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="PR_CreateHiker">
             <Parameter Name="IdCard" Mode="In" Type="Decimal" />
             <Parameter Name="Username" Mode="In" Type="String" />
@@ -130,100 +236,71 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
             <Parameter Name="Password" Mode="In" Type="String" />
             <Parameter Name="responseMessage" Mode="InOut" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Hike_Difficulty" EntityType="AruKamiModel.Hike_Difficulty" />
-          <EntitySet Name="Hike_Price" EntityType="AruKamiModel.Hike_Price" />
-          <EntitySet Name="Hike_Quality" EntityType="AruKamiModel.Hike_Quality" />
-          <EntitySet Name="Hike_Type" EntityType="AruKamiModel.Hike_Type" />
-          <EntitySet Name="Nationalities" EntityType="AruKamiModel.Nationalities" />
+          <FunctionImport Name="PR_CreatePoint">
+            <Parameter Name="Latitude" Mode="In" Type="String" />
+            <Parameter Name="Longitude" Mode="In" Type="String" />
+            <Parameter Name="IdPoint" Mode="InOut" Type="Int32" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
         </EntityContainer>
-        <EntityType Name="Hike_Difficulty">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Hike_Price">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Hike_Quality">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Hike_Type">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Nationalities">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AruKamiModelStoreContainer" CdmEntityContainer="AruKamiEntities" >
-          <FunctionImportMapping FunctionImportName="PR_CreateHiker" FunctionName="AruKamiModel.Store.PR_CreateHiker" />
-          <FunctionImportMapping FunctionImportName="PR_HikerLogin" FunctionName="AruKamiModel.Store.PR_HikerLogin" />
+        <EntityContainerMapping StorageEntityContainer="AruKamiModelStoreContainer" CdmEntityContainer="AruKamiEntities">
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="AruKamiModel.Districts">
+              <MappingFragment StoreEntitySet="Districts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Hike_Difficulty">
             <EntityTypeMapping TypeName="AruKamiModel.Hike_Difficulty">
               <MappingFragment StoreEntitySet="Hike_Difficulty">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Hike_Price">
             <EntityTypeMapping TypeName="AruKamiModel.Hike_Price">
               <MappingFragment StoreEntitySet="Hike_Price">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Hike_Quality">
             <EntityTypeMapping TypeName="AruKamiModel.Hike_Quality">
               <MappingFragment StoreEntitySet="Hike_Quality">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Hike_Type">
             <EntityTypeMapping TypeName="AruKamiModel.Hike_Type">
               <MappingFragment StoreEntitySet="Hike_Type">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nationalities">
             <EntityTypeMapping TypeName="AruKamiModel.Nationalities">
               <MappingFragment StoreEntitySet="Nationalities">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PR_CreateHike" FunctionName="AruKamiModel.Store.PR_CreateHike" />
+          <FunctionImportMapping FunctionImportName="PR_CreateHiker" FunctionName="AruKamiModel.Store.PR_CreateHiker" />
+          <FunctionImportMapping FunctionImportName="PR_HikerLogin" FunctionName="AruKamiModel.Store.PR_HikerLogin" />
+          <FunctionImportMapping FunctionImportName="PR_CreatePoint" FunctionName="AruKamiModel.Store.PR_CreatePoint" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -241,7 +318,7 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
