@@ -143,14 +143,6 @@ CREATE TABLE [Hike] (
 );
 GO
 
-CREATE TABLE [HikePoints] (
-  [IdPoint] INT IDENTITY (1,1) NOT NULL,
-  [Latitude] DECIMAL(12,9) NOT NULL,
-  [Longitude] DECIMAL(12,9) NOT NULL,
-  CONSTRAINT PK_IdPoint PRIMARY KEY(IdPoint)
-);
-GO
-
 CREATE TABLE [Inactives](
 	[IdObject] NUMERIC(20) NOT NULL,
 	[IdType] NUMERIC(1) NOT NULL,

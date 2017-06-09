@@ -118,6 +118,7 @@ CREATE PROCEDURE [PR_InactiveHiker](
 	INSERT INTO Inactives(IdObject,IdType)
 	VALUES(@idHiker,5)
 END
+GO
 
 -- EL SIGNIFICADO DE LOS VALORES DE LA COLUMNA IdType
 -- DE LA TABLA Inactives SON LOS SIGUIENTES:
@@ -164,8 +165,8 @@ GO
 
 CREATE PROCEDURE [PR_CreateHike](
 	@Name VARCHAR(100),
-	@StartDate DATE,
-	@EndDate DATE,
+	@StartDate DATETIME,
+	@EndDate DATETIME,
 	@Route VARCHAR(MAX),
 	@Photo VARBINARY(MAX) = NULL,
 	@District INT,
