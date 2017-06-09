@@ -160,4 +160,48 @@ CREATE PROCEDURE [PR_ActiveHiker](
 )AS BEGIN
 	DELETE FROM Inactives WHERE IdObject = @idHiker AND IdType = 5
 END
+GO
 
+CREATE PROCEDURE [PR_CreateHike](
+	@Name VARCHAR(100),
+	@StartDate DATE,
+	@EndDate DATE,
+	@Route VARCHAR(MAX),
+	@Photo VARBINARY(MAX) = NULL,
+	@District INT,
+	@QualityLevel INT,
+	@PriceLevel INT,
+	@Difficulty INT,
+	@HikeType INT,
+	@StartPoint INT,
+	@EndPoint INT,
+	@responseMessage NVARCHAR(250) OUTPUT
+)AS BEGIN
+	BEGIN TRY
+		INSERT INTO Hike([Name],StartDate, EndDate, [Route], Photo, District, QualityLevel, PriceLevel, Difficulty, HikeType, StartPoint, [EndPoint])
+			 VALUES (@Name, @StartDate, @EndDate, @Route, @Photo, @District, @QualityLevel, @PriceLevel, @Difficulty, @HikeType, @StartPoint, @EndPoint)
+	SET @responseMessage = 'Success'
+    END TRY
+    BEGIN CATCH
+        SET @responseMessage = ERROR_MESSAGE()
+    END CATCH
+END
+GO
+
+CREATE PROCEDURE [PR_CreatePoint](
+	@Latitude VARCHAR(255),
+	@Longitude VARCHAR(255),
+	@IdPoint INT OUTPUT,
+	@responseMessage NVARCHAR(250) OUTPUT
+)AS BEGIN
+
+	BEGIN TRY
+		INSERT INTO GeoPoint(Latitude, Longitude)
+			 VALUES (@Latitude, @Longitude)
+		SET @responseMessage = 'Success'
+		SET @IdPoint = @@IDENTITY
+    END TRY
+    BEGIN CATCH
+        SET @responseMessage = ERROR_MESSAGE()
+    END CATCH
+END

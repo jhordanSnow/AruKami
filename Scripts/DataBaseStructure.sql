@@ -62,7 +62,6 @@ CREATE TABLE [District] (
   CONSTRAINT FK_IdCanton FOREIGN KEY(IdCanton) REFERENCES [Canton]
 );
 GO
-
 CREATE TABLE [Hiker](
 	[IdCard] NUMERIC(20) NOT NULL,
 	[Gender] CHAR(1) NOT NULL CHECK(Gender = 'M' OR Gender = 'F'),
@@ -103,12 +102,29 @@ CREATE TABLE [Quality](
 );
 GO
 
+CREATE TABLE [Photo](
+	[IdPhoto] INT IDENTITY(1,1) NOT NULL,
+	[Photo] VARBINARY(MAX) NOT NULL
+	CONSTRAINT PK_Photo PRIMARY KEY(IdPhoto)
+);
+GO
+
+CREATE TABLE [GeoPoint](
+	[IdPoint] INT IDENTITY(1,1) NOT NULL,
+	[Latitude] VARCHAR(255) NOT NULL,
+	[Longitude] VARCHAR(255) NOT NULL
+	CONSTRAINT PK_GeoPoint PRIMARY KEY(IdPoint)
+);
+GO
+
+
 CREATE TABLE [Hike] (
   [IdHike] INT IDENTITY(1,1) NOT NULL,
-  [StarDate] DATE NOT NULL,
+  [Name] VARCHAR(100) NOT NULL,
+  [StartDate] DATE NOT NULL,
   [EndDate] DATE NOT NULL,
   [Route] VARCHAR(MAX) NOT NULL,
-  [Photo] INT,
+  [Photo] VARBINARY(MAX),
   [District] INT NOT NULL,
   [QualityLevel] INT NOT NULL,
   [PriceLevel] INT NOT NULL,
@@ -121,7 +137,9 @@ CREATE TABLE [Hike] (
   CONSTRAINT FK_Quality FOREIGN KEY(QualityLevel) REFERENCES [Quality],
   CONSTRAINT FK_Price FOREIGN KEY(PriceLevel) REFERENCES [Price],
   CONSTRAINT FK_Difficulty FOREIGN KEY(Difficulty) REFERENCES [Difficulty],
-  CONSTRAINT FK_HikingType FOREIGN KEY(HikeType) REFERENCES [HikeType]
+  CONSTRAINT FK_HikingType FOREIGN KEY(HikeType) REFERENCES [HikeType],
+  CONSTRAINT FK_StartPoint FOREIGN KEY(StartPoint) REFERENCES [GeoPoint],
+  CONSTRAINT FK_EndPoint FOREIGN KEY([EndPoint]) REFERENCES [GeoPoint]
 );
 GO
 
@@ -138,4 +156,6 @@ CREATE TABLE [Inactives](
 	[IdType] NUMERIC(1) NOT NULL,
 	CONSTRAINT PK_IdObjectType PRIMARY KEY(IdObject,IdType)
 );
+GO
+
 

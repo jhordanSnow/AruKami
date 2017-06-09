@@ -184,46 +184,49 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HikeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AruModel.Context.cs">
+    <Compile Include="Models\AruKamiModels.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AruModel.Context.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AruModel.cs">
+    <Compile Include="Models\AruKamiModels.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AruModel.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AruModel.Designer.cs">
+    <Compile Include="Models\AruKamiModels.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AruModel.edmx</DependentUpon>
+      <DependentUpon>AruKamiModels.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Districts.cs">
-      <DependentUpon>AruModel.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GeoPointModel.cs" />
+    <Compile Include="Models\HikeModel.cs" />
     <Compile Include="Models\HikerModel.cs" />
     <Compile Include="Models\Hike_Difficulty.cs">
-      <DependentUpon>AruModel.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Hike_Price.cs">
-      <DependentUpon>AruModel.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Hike_Quality.cs">
-      <DependentUpon>AruModel.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Hike_Type.cs">
-      <DependentUpon>AruModel.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Nationalities.cs">
-      <DependentUpon>AruModel.tt</DependentUpon>
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -240,15 +243,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Icon.png" />
-    <Content Include="Models\AruModel.Context.tt">
+    <Content Include="Models\AruKamiModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AruModel.Context.cs</LastGenOutput>
-      <DependentUpon>AruModel.edmx</DependentUpon>
+      <DependentUpon>AruKamiModels.edmx</DependentUpon>
+      <LastGenOutput>AruKamiModels.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\AruModel.tt">
+    <Content Include="Models\AruKamiModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AruModel.edmx</DependentUpon>
-      <LastGenOutput>AruModel.cs</LastGenOutput>
+      <DependentUpon>AruKamiModels.edmx</DependentUpon>
+      <LastGenOutput>AruKamiModels.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -274,13 +277,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\AruModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AruModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\AruModel.edmx.diagram">
-      <DependentUpon>AruModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
@@ -292,6 +288,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="Models\AruKamiModels.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AruKamiModels.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AruKamiModels.edmx.diagram">
+      <DependentUpon>AruKamiModels.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-2.1.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />

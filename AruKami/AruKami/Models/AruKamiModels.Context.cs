@@ -27,12 +27,65 @@ namespace AruKami.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Districts> Districts { get; set; }
         public virtual DbSet<Hike_Difficulty> Hike_Difficulty { get; set; }
         public virtual DbSet<Hike_Price> Hike_Price { get; set; }
         public virtual DbSet<Hike_Quality> Hike_Quality { get; set; }
         public virtual DbSet<Hike_Type> Hike_Type { get; set; }
         public virtual DbSet<Nationalities> Nationalities { get; set; }
-        public virtual DbSet<Districts> Districts { get; set; }
+    
+        public virtual int PR_CreateHike(string name, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string route, byte[] photo, Nullable<int> district, Nullable<int> qualityLevel, Nullable<int> priceLevel, Nullable<int> difficulty, Nullable<int> hikeType, Nullable<int> startPoint, Nullable<int> endPoint, ObjectParameter responseMessage)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var routeParameter = route != null ?
+                new ObjectParameter("Route", route) :
+                new ObjectParameter("Route", typeof(string));
+    
+            var photoParameter = photo != null ?
+                new ObjectParameter("Photo", photo) :
+                new ObjectParameter("Photo", typeof(byte[]));
+    
+            var districtParameter = district.HasValue ?
+                new ObjectParameter("District", district) :
+                new ObjectParameter("District", typeof(int));
+    
+            var qualityLevelParameter = qualityLevel.HasValue ?
+                new ObjectParameter("QualityLevel", qualityLevel) :
+                new ObjectParameter("QualityLevel", typeof(int));
+    
+            var priceLevelParameter = priceLevel.HasValue ?
+                new ObjectParameter("PriceLevel", priceLevel) :
+                new ObjectParameter("PriceLevel", typeof(int));
+    
+            var difficultyParameter = difficulty.HasValue ?
+                new ObjectParameter("Difficulty", difficulty) :
+                new ObjectParameter("Difficulty", typeof(int));
+    
+            var hikeTypeParameter = hikeType.HasValue ?
+                new ObjectParameter("HikeType", hikeType) :
+                new ObjectParameter("HikeType", typeof(int));
+    
+            var startPointParameter = startPoint.HasValue ?
+                new ObjectParameter("StartPoint", startPoint) :
+                new ObjectParameter("StartPoint", typeof(int));
+    
+            var endPointParameter = endPoint.HasValue ?
+                new ObjectParameter("EndPoint", endPoint) :
+                new ObjectParameter("EndPoint", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateHike", nameParameter, startDateParameter, endDateParameter, routeParameter, photoParameter, districtParameter, qualityLevelParameter, priceLevelParameter, difficultyParameter, hikeTypeParameter, startPointParameter, endPointParameter, responseMessage);
+        }
     
         public virtual int PR_CreateHiker(Nullable<decimal> idCard, string username, string password, string firstName, string middleName, string lastName, string secondLastName, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, Nullable<decimal> accountNumber, ObjectParameter responseMessage)
         {
@@ -94,6 +147,19 @@ namespace AruKami.Models
                 new ObjectParameter("Password", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_HikerLogin", usernameParameter, passwordParameter, responseMessage);
+        }
+    
+        public virtual int PR_CreatePoint(string latitude, string longitude, ObjectParameter idPoint, ObjectParameter responseMessage)
+        {
+            var latitudeParameter = latitude != null ?
+                new ObjectParameter("Latitude", latitude) :
+                new ObjectParameter("Latitude", typeof(string));
+    
+            var longitudeParameter = longitude != null ?
+                new ObjectParameter("Longitude", longitude) :
+                new ObjectParameter("Longitude", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreatePoint", latitudeParameter, longitudeParameter, idPoint, responseMessage);
         }
     }
 }

@@ -15,6 +15,8 @@
 ---- Permisos del usuario hiker
 --GRANT EXEC ON [PR_CreateHiker] TO AruHiker
 --GRANT EXEC ON [PR_HikerLogin] TO AruHiker
+--GRANT EXEC ON [PR_CreateHike] TO AruHiker
+--GRANT EXEC ON [PR_CreatePoint] TO AruHiker
 --GRANT SELECT ON [Nationalities] TO AruHiker
 --GRANT SELECT ON [Hike_Difficulty] TO AruHiker
 --GRANT SELECT ON [Hike_Quality] TO AruHiker
@@ -24,3 +26,5 @@
 ---- Permisos del usuario administrador
 --GRANT EXEC ON [] to AruAdmin
 GO
+
+
