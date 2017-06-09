@@ -161,5 +161,7 @@ namespace AruKami.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreatePoint", latitudeParameter, longitudeParameter, idPoint, responseMessage);
         }
+
+        public System.Data.Entity.DbSet<AruKami.Models.LoginModel> LoginModels { get; set; }
     }
 }

@@ -644,3 +644,8 @@ AS BEGIN
 END
 GO
 
+EXEC PR_InactiveQuality 2
+
+EXEC PR_ActiveQuality 2
+
+SELECT * FROM EventLog

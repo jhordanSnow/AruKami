@@ -41,7 +41,7 @@ namespace AruKami.Controllers
         // POST: api/Hikes/
         [Route("api/Hikes/GeoPoint/New")]
         [ResponseType(typeof(GeoPointRequest))]
-        public async Task<IHttpActionResult> PostGeoPoint(GeoPointRequest point)
+        public IHttpActionResult PostGeoPoint(GeoPointRequest point)
         {
             if (!ModelState.IsValid)
             {
