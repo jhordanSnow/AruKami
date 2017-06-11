@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AruKamiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_User">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecondLastName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="PR_AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="PR_CreateAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="AruKamiModelStoreContainer">
+          <EntitySet Name="View_User" EntityType="Self.View_User" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_User].[IdCard] AS [IdCard], 
+    [View_User].[Username] AS [Username], 
+    [View_User].[FirstName] AS [FirstName], 
+    [View_User].[MiddleName] AS [MiddleName], 
+    [View_User].[LastName] AS [LastName], 
+    [View_User].[SecondLastName] AS [SecondLastName]
+    FROM [dbo].[View_User] AS [View_User]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AruKamiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AruKamiEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="PR_AdminLogin">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_CreateAdmin">
+            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="SecondLastName" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="View_User" EntityType="AruKamiModel.View_User" />
+        </EntityContainer>
+        <EntityType Name="View_User">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="IdCard" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SecondLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AruKamiModelStoreContainer" CdmEntityContainer="AruKamiEntities" >
+          <FunctionImportMapping FunctionImportName="PR_AdminLogin" FunctionName="AruKamiModel.Store.PR_AdminLogin" />
+          <FunctionImportMapping FunctionImportName="PR_CreateAdmin" FunctionName="AruKamiModel.Store.PR_CreateAdmin" />
+          <EntitySetMapping Name="View_User">
+            <EntityTypeMapping TypeName="AruKamiModel.View_User">
+              <MappingFragment StoreEntitySet="View_User">
+                <ScalarProperty Name="SecondLastName" ColumnName="SecondLastName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

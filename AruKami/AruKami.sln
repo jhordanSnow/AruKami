@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AruKami", "AruKami\AruKami.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AruAdmin", "AruAdmin\AruAdmin.csproj", "{153EFE3E-BAAC-4FC6-A8A4-80A98997686D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AruAdminICT", "AruAdminICT\AruAdminICT.csproj", "{768FFE25-48E5-4A54-BB06-9A270B48885A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{153EFE3E-BAAC-4FC6-A8A4-80A98997686D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153EFE3E-BAAC-4FC6-A8A4-80A98997686D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{153EFE3E-BAAC-4FC6-A8A4-80A98997686D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768FFE25-48E5-4A54-BB06-9A270B48885A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768FFE25-48E5-4A54-BB06-9A270B48885A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768FFE25-48E5-4A54-BB06-9A270B48885A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768FFE25-48E5-4A54-BB06-9A270B48885A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
