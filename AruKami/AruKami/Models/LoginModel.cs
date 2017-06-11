@@ -17,5 +17,6 @@ namespace AruKami.Models
     {
         public bool Success { get; set; }
         public string Msg { get; set; }
+        public int IdCard { get; set; }
     }
 }

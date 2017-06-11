@@ -55,12 +55,13 @@ GO
 CREATE PROCEDURE [PR_UserLogin](
     @Username NVARCHAR(254),
     @Password NVARCHAR(50),
-    @responseMessage NVARCHAR(250)='' OUTPUT
+    @responseMessage NVARCHAR(250)='' OUTPUT,
+	@IdCard NUMERIC(20) = NULL OUTPUT
 )AS BEGIN
     SET NOCOUNT ON
     DECLARE @userID INT
-	SET @userID=(SELECT [IdCard] FROM [User] WHERE Username=@Username AND PasswordHash=HASHBYTES('SHA2_512', @Password+CAST(Salt AS NVARCHAR(36))))
-	IF(@userID IS NULL)
+	SET @IdCard=(SELECT [IdCard] FROM [User] WHERE Username=@Username AND PasswordHash=HASHBYTES('SHA2_512', @Password+CAST(Salt AS NVARCHAR(36))))
+	IF(@IdCard IS NULL)
 		SET @responseMessage='Incorrect password'
 	ELSE 
 		SET @responseMessage='User successfully logged in'
@@ -68,13 +69,14 @@ END
 GO
 
 
-CREATE PROCEDURE [PR_HikerLogin](
+ALTER PROCEDURE [PR_HikerLogin](
     @Username NVARCHAR(254),
     @Password NVARCHAR(50),
-    @responseMessage NVARCHAR(250)='' OUTPUT
+    @responseMessage NVARCHAR(250)='' OUTPUT,
+	@IdCard NUMERIC(20) = NULL OUTPUT
 )AS BEGIN
 	IF EXISTS (SELECT TOP 1 H.[IdCard] FROM [Hiker] H INNER JOIN [User] U ON U.[IdCard] = H.[IdCard] WHERE U.Username=@Username)
-		EXEC PR_UserLogin @Username, @Password, @responseMessage OUTPUT
+		EXEC PR_UserLogin @Username, @Password, @responseMessage OUTPUT, @IdCard OUTPUT
 	ELSE
 		SET @responseMessage = 'Invalid Login'
 END
@@ -163,7 +165,7 @@ CREATE PROCEDURE [PR_ActiveHiker](
 END
 GO
 
-CREATE PROCEDURE [PR_CreateHike](
+ALTER PROCEDURE [PR_CreateHike](
 	@Name VARCHAR(100),
 	@StartDate DATETIME,
 	@EndDate DATETIME,
@@ -206,3 +208,11 @@ CREATE PROCEDURE [PR_CreatePoint](
         SET @responseMessage = ERROR_MESSAGE()
     END CATCH
 END
+
+CREATE PROCEDURE [PR_GetUser](
+	@IdCard NUMERIC(20)
+)AS BEGIN
+	SELECT * FROM [UserDetails] WHERE IdCard = @IdCard
+END
+GO
+

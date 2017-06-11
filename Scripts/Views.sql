@@ -25,3 +25,9 @@ INNER JOIN Canton C ON p.IdProvince = C.IdProvince
 INNER JOIN District D ON C.IdCanton = D.IdCanton
 GO
 
+CREATE VIEW [UserDetails] AS
+Select U.IdCard,U.Username,U.FirstName,U.MiddleName,U.LastName,U.SecondLastName, H.Gender, H.BirthDate, H.Nationality, H.AccountNumber
+ from [dbo].[User] U
+INNER JOIN [dbo].[Hiker] H ON U.IdCard = H.IdCard
+GO
+

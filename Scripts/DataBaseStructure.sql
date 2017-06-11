@@ -121,8 +121,8 @@ GO
 CREATE TABLE [Hike] (
   [IdHike] INT IDENTITY(1,1) NOT NULL,
   [Name] VARCHAR(100) NOT NULL,
-  [StartDate] DATE NOT NULL,
-  [EndDate] DATE NOT NULL,
+  [StartDate] DATETIME NOT NULL,
+  [EndDate] DATETIME NOT NULL,
   [Route] VARCHAR(MAX) NOT NULL,
   [Photo] VARBINARY(MAX),
   [District] INT NOT NULL,

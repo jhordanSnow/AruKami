@@ -17,6 +17,7 @@
 --GRANT EXEC ON [PR_HikerLogin] TO AruHiker
 --GRANT EXEC ON [PR_CreateHike] TO AruHiker
 --GRANT EXEC ON [PR_CreatePoint] TO AruHiker
+--GRANT EXEC ON [PR_GetUser] TO AruHiker
 --GRANT SELECT ON [Nationalities] TO AruHiker
 --GRANT SELECT ON [Districts] TO AruHiker
 --GRANT SELECT ON [Hike_Difficulty] TO AruHiker
