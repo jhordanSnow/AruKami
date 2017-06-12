@@ -19,4 +19,5 @@ namespace AruKami.Models
         public string LastName { get; set; }
         public string SecondLastName { get; set; }
     }
+
 }

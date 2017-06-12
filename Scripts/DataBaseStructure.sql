@@ -121,8 +121,8 @@ GO
 CREATE TABLE [Hike] (
   [IdHike] INT IDENTITY(1,1) NOT NULL,
   [Name] VARCHAR(100) NOT NULL,
-  [StartDate] DATE NOT NULL,
-  [EndDate] DATE NOT NULL,
+  [StartDate] DATETIME NOT NULL,
+  [EndDate] DATETIME NOT NULL,
   [Route] VARCHAR(MAX) NOT NULL,
   [Photo] VARBINARY(MAX),
   [District] INT NOT NULL,
@@ -140,14 +140,6 @@ CREATE TABLE [Hike] (
   CONSTRAINT FK_HikingType FOREIGN KEY(HikeType) REFERENCES [HikeType],
   CONSTRAINT FK_StartPoint FOREIGN KEY(StartPoint) REFERENCES [GeoPoint],
   CONSTRAINT FK_EndPoint FOREIGN KEY([EndPoint]) REFERENCES [GeoPoint]
-);
-GO
-
-CREATE TABLE [HikePoints] (
-  [IdPoint] INT IDENTITY (1,1) NOT NULL,
-  [Latitude] DECIMAL(12,9) NOT NULL,
-  [Longitude] DECIMAL(12,9) NOT NULL,
-  CONSTRAINT PK_IdPoint PRIMARY KEY(IdPoint)
 );
 GO
 

@@ -228,6 +228,9 @@
     <Compile Include="Models\Nationalities.cs">
       <DependentUpon>AruKamiModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_GetUser_Result.cs">
+      <DependentUpon>AruKamiModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,12 @@ SELECT IdType AS [Id], [Name] FROM HikeType
 GO
 
 
+CREATE VIEW [UserDetails] AS
+Select U.IdCard,U.Username,U.FirstName,U.MiddleName,U.LastName,U.SecondLastName, H.Gender, H.BirthDate, H.Nationality, H.AccountNumber
+ from [dbo].[User] U
+INNER JOIN [dbo].[Hiker] H ON U.IdCard = H.IdCard
+GO
+
 -- Administrador
 CREATE VIEW [View_User] AS
 SELECT IdCard, Username,FirstName, MiddleName, LastName, SecondLastName FROM [User]

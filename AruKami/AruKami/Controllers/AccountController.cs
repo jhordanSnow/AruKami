@@ -35,7 +35,7 @@ namespace AruKami.Controllers
         // POST: api/Login
         [Route("api/Login/Authenticate")]
         [ResponseType(typeof(LoginModel))]
-        public async Task<IHttpActionResult> PostLoginModel(LoginModel loginModel)
+        public IHttpActionResult PostLoginModel(LoginModel loginModel)
         {
             if (!ModelState.IsValid)
             {
@@ -43,8 +43,13 @@ namespace AruKami.Controllers
             }
 
             ObjectParameter Output = new ObjectParameter("responseMessage", typeof(string));
-            db.PR_HikerLogin(loginModel.Username, loginModel.Password, Output);
-            var r = new LoginResult() { Success = false, Msg = Output.Value.ToString() };
+            ObjectParameter idCard = new ObjectParameter("idCard", typeof(int));
+            db.PR_HikerLogin(loginModel.Username, loginModel.Password,Output, idCard);
+            var r = new LoginResult() { Success = false, Msg = Output.Value.ToString()};
+            if (! (idCard.Value is DBNull))
+            {
+                r.IdCard = Convert.ToInt32(idCard.Value);
+            }
 
             if (Output.Value.ToString().Equals("User successfully logged in"))
             {
@@ -53,5 +58,23 @@ namespace AruKami.Controllers
 
             return Ok(r);
         }
+
+
+        // POST: api/User/5
+        [Route("api/User/{id}")]
+        [ResponseType(typeof(PR_GetUser_Result))]
+        public IHttpActionResult GetUser(int id)
+        {
+            var loginModel = db.PR_GetUser(id);
+            if (loginModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(loginModel);
+        }
+
+
+
     }
 }
