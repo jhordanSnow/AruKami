@@ -24,7 +24,10 @@
 --GRANT SELECT ON [Hike_Type] TO AruHiker
 
 ---- Permisos del usuario administrador
---GRANT EXEC ON [] to AruAdmin
+--GRANT EXEC ON [PR_CreateAdmin] TO AruAdmin
+--GRANT EXEC ON [PR_AdminLogin] TO AruAdmin
+--GRANT SELECT ON [View_User] TO AruAdmin
+
 GO
 
 

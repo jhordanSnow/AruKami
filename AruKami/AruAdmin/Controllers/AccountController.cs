@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Data.Entity.Core.Objects;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -15,8 +19,15 @@ namespace AruAdmin.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+
+        private AruKamiEntities db = new AruKamiEntities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        IAuthenticationManager Authentication
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
 
         public AccountController()
         {
@@ -66,29 +77,42 @@ namespace AruAdmin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            ObjectParameter Output = new ObjectParameter("responseMessage", typeof(string));
+            db.PR_AdminLogin(model.Username, model.Password, Output);
+
+
+            if (Output.Value.ToString().Equals("User successfully logged in"))
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                View_User user = null;
+                using (AruKamiEntities dc = new AruKamiEntities())
+                {
+                    dc.Configuration.ProxyCreationEnabled = false;
+                    user = dc.View_User.FirstOrDefault(a => a.Username.Equals(model.Username));
+
+                }
+                if (user != null)
+                {
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    string data = js.Serialize(user);
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Username, DateTime.Now,
+                        DateTime.Now.AddMinutes(30), model.RememberMe, data);
+                    string encToken = FormsAuthentication.Encrypt(ticket);
+                    HttpCookie authoCookies = new HttpCookie(FormsAuthentication.FormsCookieName, encToken);
+                    Response.Cookies.Add(authoCookies);
+                    return RedirectToAction("Index", "Home");
+                }
             }
+
+            ModelState.AddModelError("", "Invalid login attempt.");
+            return View(model);
+
         }
 
         //

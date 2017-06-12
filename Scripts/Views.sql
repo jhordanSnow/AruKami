@@ -18,3 +18,9 @@ GO
 CREATE VIEW [Hike_Type] AS
 SELECT IdType AS [Id], [Name] FROM HikeType
 GO
+
+
+-- Administrador
+CREATE VIEW [View_User] AS
+SELECT IdCard, Username,FirstName, MiddleName, LastName, SecondLastName FROM [User]
+GO

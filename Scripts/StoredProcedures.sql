@@ -118,7 +118,7 @@ CREATE PROCEDURE [PR_InactiveHiker](
 	INSERT INTO Inactives(IdObject,IdType)
 	VALUES(@idHiker,5)
 END
-
+GO
 -- EL SIGNIFICADO DE LOS VALORES DE LA COLUMNA IdType
 -- DE LA TABLA Inactives SON LOS SIGUIENTES:
 -- 1 -> Quality
@@ -205,3 +205,42 @@ CREATE PROCEDURE [PR_CreatePoint](
         SET @responseMessage = ERROR_MESSAGE()
     END CATCH
 END
+GO
+
+-- ADMINISTRADOR
+
+CREATE PROCEDURE [PR_CreateAdmin] (
+	@IdCard NUMERIC(20),
+	@Username VARCHAR(25),
+    @Password VARCHAR(255),
+    @FirstName VARCHAR(50),
+    @MiddleName VARCHAR(50) = NULL,
+    @LastName VARCHAR(50),
+    @SecondLastName VARCHAR(50) = NULL,
+	@responseMessage NVARCHAR(250) OUTPUT
+) AS BEGIN
+	EXEC PR_CreateUser @IdCard, @Username, @Password, @FirstName, @MiddleName, @LastName, @SecondLastName, @responseMessage OUTPUT
+	IF @responseMessage = 'Success'
+	BEGIN
+		BEGIN TRY
+			INSERT INTO [Admin](IdCard) VALUES (@IdCard)
+		SET @responseMessage = 'Success'
+		END TRY
+		BEGIN CATCH
+			SET @responseMessage = ERROR_MESSAGE() 
+		END CATCH
+	END
+END
+GO
+
+CREATE PROCEDURE [PR_AdminLogin](
+    @Username NVARCHAR(254),
+    @Password NVARCHAR(50),
+    @responseMessage NVARCHAR(250)='' OUTPUT
+)AS BEGIN
+	IF EXISTS (SELECT TOP 1 A.[IdCard] FROM [Admin] A INNER JOIN [User] U ON U.[IdCard] = A.[IdCard] WHERE U.Username=@Username)
+		EXEC PR_UserLogin @Username, @Password, @responseMessage OUTPUT
+	ELSE
+		SET @responseMessage = 'Invalid Login'
+END
+GO
