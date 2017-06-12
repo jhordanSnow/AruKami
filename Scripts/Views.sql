@@ -32,4 +32,12 @@ SELECT IdCard, Username,FirstName, MiddleName, LastName, SecondLastName FROM [Us
 GO
 
 
-
+CREATE VIEW View_Quality AS
+ SELECT 
+	Q.IdQuality AS [Id], 
+	Q.[Name], 
+	COUNT(I.IdObject) [Inactive] 
+FROM Quality Q
+LEFT JOIN Inactives I ON I.IdType = 1 AND Q.IdQuality = I.IdObject
+GROUP BY Q.IdQuality, Q.[Name]
+GO
