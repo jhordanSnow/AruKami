@@ -30,7 +30,7 @@ namespace AruAdmin.Filter
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 userName = filterContext.HttpContext.User.Identity.Name;
-            }
+            }   
 
             try
             {

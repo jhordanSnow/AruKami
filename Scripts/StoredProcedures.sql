@@ -121,10 +121,7 @@ CREATE PROCEDURE [PR_InactiveHiker](
 	VALUES(@idHiker,5)
 END
 GO
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
 -- EL SIGNIFICADO DE LOS VALORES DE LA COLUMNA IdType
 -- DE LA TABLA Inactives SON LOS SIGUIENTES:
 -- 1 -> Quality
@@ -256,5 +253,20 @@ CREATE PROCEDURE [PR_AdminLogin](
 		EXEC PR_UserLogin @Username, @Password, @responseMessage OUTPUT
 	ELSE
 		SET @responseMessage = 'Invalid Login'
+END
+GO
+
+CREATE PROCEDURE [PR_AddQuality](
+	@Name VARCHAR(MAX)
+)AS BEGIN
+	INSERT INTO Quality([Name]) VALUES(@Name)
+END
+GO
+
+CREATE PROCEDURE [PR_EditQuality](
+	@Name VARCHAR(MAX),
+	@Id INT
+)AS BEGIN
+	UPDATE Quality SET [Name] = @Name WHERE IdQuality = @Id
 END
 GO

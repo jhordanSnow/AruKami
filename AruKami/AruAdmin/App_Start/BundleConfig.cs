@@ -10,6 +10,13 @@ namespace AruAdmin
         {
             AppStart(bundles);
             AdminLTELayout(bundles);
+            CatalogBundle(bundles);
+        }
+
+        public static void CatalogBundle(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Catalog/Index").Include(
+                        "~/Scripts/Catalog/index.js"));
         }
 
         public static void AppStart(BundleCollection bundles)

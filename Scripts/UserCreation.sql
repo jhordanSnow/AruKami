@@ -28,6 +28,13 @@
 --GRANT EXEC ON [PR_CreateAdmin] TO AruAdmin
 --GRANT EXEC ON [PR_AdminLogin] TO AruAdmin
 --GRANT SELECT ON [View_User] TO AruAdmin
+--GRANT SELECT ON [View_Quality] TO AruAdmin
+--GRANT EXEC ON [PR_InactiveQuality] TO AruAdmin
+--GRANT EXEC ON [PR_ActiveQuality] TO AruAdmin
+--GRANT EXEC ON [PR_AddQuality] TO AruAdmin
+--GRANT EXEC ON [PR_EditQuality] TO AruAdmin
+
+
 
 GO
 

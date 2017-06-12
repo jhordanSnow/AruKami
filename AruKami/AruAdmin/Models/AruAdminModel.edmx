@@ -6,6 +6,17 @@
     <edmx:StorageModels>
     <Schema Namespace="AruKamiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_Quality' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Quality">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Inactive" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="View_User">
           <Key>
@@ -21,6 +32,12 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SecondLastName" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Function Name="PR_ActiveQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idQuality" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_AddQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="PR_AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="nvarchar" Mode="In" />
           <Parameter Name="Password" Type="nvarchar" Mode="In" />
@@ -36,7 +53,21 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
           <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
+        <Function Name="PR_EditQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_InactiveQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idQuality" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="AruKamiModelStoreContainer">
+          <EntitySet Name="View_Quality" EntityType="Self.View_Quality" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Quality].[Id] AS [Id], 
+    [View_Quality].[Name] AS [Name], 
+    [View_Quality].[Inactive] AS [Inactive]
+    FROM [dbo].[View_Quality] AS [View_Quality]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="View_User" EntityType="Self.View_User" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [View_User].[IdCard] AS [IdCard], 
@@ -69,6 +100,20 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
             <Parameter Name="responseMessage" Mode="InOut" Type="String" />
           </FunctionImport>
           <EntitySet Name="View_User" EntityType="AruKamiModel.View_User" />
+          <EntitySet Name="View_Quality" EntityType="AruKamiModel.View_Quality" />
+          <FunctionImport Name="PR_InactiveQuality">
+          <Parameter Name="idQuality" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_ActiveQuality">
+          <Parameter Name="idQuality" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_AddQuality">
+          <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_EditQuality">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="View_User">
           <Key>
@@ -83,6 +128,15 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
           <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SecondLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_Quality">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Inactive" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -104,6 +158,19 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="View_Quality">
+            <EntityTypeMapping TypeName="AruKamiModel.View_Quality">
+              <MappingFragment StoreEntitySet="View_Quality">
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PR_InactiveQuality" FunctionName="AruKamiModel.Store.PR_InactiveQuality" />
+          <FunctionImportMapping FunctionImportName="PR_ActiveQuality" FunctionName="AruKamiModel.Store.PR_ActiveQuality" />
+          <FunctionImportMapping FunctionImportName="PR_AddQuality" FunctionName="AruKamiModel.Store.PR_AddQuality" />
+          <FunctionImportMapping FunctionImportName="PR_EditQuality" FunctionName="AruKamiModel.Store.PR_EditQuality" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

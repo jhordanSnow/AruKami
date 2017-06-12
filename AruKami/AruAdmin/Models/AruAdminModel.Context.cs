@@ -28,6 +28,7 @@ namespace AruAdmin.Models
         }
     
         public virtual DbSet<View_User> View_User { get; set; }
+        public virtual DbSet<View_Quality> View_Quality { get; set; }
     
         public virtual int PR_AdminLogin(string username, string password, ObjectParameter responseMessage)
         {
@@ -73,6 +74,46 @@ namespace AruAdmin.Models
                 new ObjectParameter("SecondLastName", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateAdmin", idCardParameter, usernameParameter, passwordParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, responseMessage);
+        }
+    
+        public virtual int PR_InactiveQuality(Nullable<int> idQuality)
+        {
+            var idQualityParameter = idQuality.HasValue ?
+                new ObjectParameter("idQuality", idQuality) :
+                new ObjectParameter("idQuality", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_InactiveQuality", idQualityParameter);
+        }
+    
+        public virtual int PR_ActiveQuality(Nullable<int> idQuality)
+        {
+            var idQualityParameter = idQuality.HasValue ?
+                new ObjectParameter("idQuality", idQuality) :
+                new ObjectParameter("idQuality", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ActiveQuality", idQualityParameter);
+        }
+    
+        public virtual int PR_AddQuality(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_AddQuality", nameParameter);
+        }
+    
+        public virtual int PR_EditQuality(string name, Nullable<int> id)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_EditQuality", nameParameter, idParameter);
         }
     }
 }
