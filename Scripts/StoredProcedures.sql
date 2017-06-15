@@ -16,7 +16,7 @@ CREATE PROCEDURE [PR_CreateUser] (
 	BEGIN TRY
 		INSERT INTO [User] ([IdCard], [Username], [PasswordHash], [FirstName], [MiddleName],[LastName], [SecondLastName], [Salt])
 		VALUES(@IdCard, @Username, HASHBYTES('SHA2_512', @Password + CAST(@salt AS NVARCHAR(36))), @FirstName, @MiddleName, @LastName, @SecondLastName, @Salt)
-	SET @responseMessage = 'Success'
+		SET @responseMessage = 'Success'
     END TRY
     BEGIN CATCH
         SET @responseMessage = ERROR_MESSAGE() 
@@ -69,7 +69,7 @@ END
 GO
 
 
-ALTER PROCEDURE [PR_HikerLogin](
+CREATE PROCEDURE [PR_HikerLogin](
     @Username NVARCHAR(254),
     @Password NVARCHAR(50),
     @responseMessage NVARCHAR(250)='' OUTPUT,
@@ -107,7 +107,7 @@ END
 GO
 
 CREATE PROCEDURE [PR_InactiveHikeType](
-	@idHikeType INT
+	@idHikeType DECIMAL(20)
 )AS BEGIN
 	INSERT INTO Inactives(IdObject,IdType)
 	VALUES(@idHikeType,4)
@@ -115,7 +115,7 @@ END
 GO
 
 CREATE PROCEDURE [PR_InactiveHiker](
-	@idHiker INT
+	@idHiker DECIMAL(20)
 )AS BEGIN
 	INSERT INTO Inactives(IdObject,IdType)
 	VALUES(@idHiker,5)
@@ -129,6 +129,8 @@ GO
 -- 3 -> Difficulty
 -- 4 -> HikeType
 -- 5 -> Hiker
+-- 6 -> Admin
+-- 7 -> AdminICT
 
 CREATE PROCEDURE [PR_ActiveQuality](
 	@idQuality INT
@@ -159,7 +161,7 @@ END
 GO
 
 CREATE PROCEDURE [PR_ActiveHiker](
-	@idHiker INT
+	@idHiker DECIMAL(20)
 )AS BEGIN
 	DELETE FROM Inactives WHERE IdObject = @idHiker AND IdType = 5
 END
@@ -244,6 +246,30 @@ CREATE PROCEDURE [PR_CreateAdmin] (
 END
 GO
 
+CREATE PROCEDURE [PR_CreateAdminICT] (
+	@IdCard NUMERIC(20),
+	@Username VARCHAR(25),
+    @Password VARCHAR(255),
+    @FirstName VARCHAR(50),
+    @MiddleName VARCHAR(50) = NULL,
+    @LastName VARCHAR(50),
+    @SecondLastName VARCHAR(50) = NULL,
+	@responseMessage NVARCHAR(250) OUTPUT
+) AS BEGIN
+	EXEC PR_CreateUser @IdCard, @Username, @Password, @FirstName, @MiddleName, @LastName, @SecondLastName, @responseMessage OUTPUT
+	IF @responseMessage = 'Success'
+	BEGIN
+		BEGIN TRY
+			INSERT INTO [AdminICT](IdCard) VALUES (@IdCard)
+		SET @responseMessage = 'Success'
+		END TRY
+		BEGIN CATCH
+			SET @responseMessage = ERROR_MESSAGE() 
+		END CATCH
+	END
+END
+GO
+
 CREATE PROCEDURE [PR_AdminLogin](
     @Username NVARCHAR(254),
     @Password NVARCHAR(50),
@@ -263,10 +289,131 @@ CREATE PROCEDURE [PR_AddQuality](
 END
 GO
 
+CREATE PROCEDURE [PR_AddPrice](
+	@Name VARCHAR(MAX)
+)AS BEGIN
+	INSERT INTO Price([Name]) VALUES(@Name)
+END
+GO
+
+
+CREATE PROCEDURE [PR_AddDifficulty](
+	@Name VARCHAR(MAX)
+)AS BEGIN
+	INSERT INTO Difficulty([Name]) VALUES(@Name)
+END
+GO
+
+CREATE PROCEDURE [PR_AddHikeType](
+	@Name VARCHAR(MAX)
+)AS BEGIN
+	INSERT INTO HikeType([Name]) VALUES(@Name)
+END
+GO
+
 CREATE PROCEDURE [PR_EditQuality](
 	@Name VARCHAR(MAX),
 	@Id INT
 )AS BEGIN
 	UPDATE Quality SET [Name] = @Name WHERE IdQuality = @Id
+END
+GO
+
+CREATE PROCEDURE [PR_EditPrice](
+	@Name VARCHAR(MAX),
+	@Id INT
+)AS BEGIN
+	UPDATE Price SET [Name] = @Name WHERE IdPrice = @Id
+END
+GO
+
+CREATE PROCEDURE [PR_EditDifficulty](
+	@Name VARCHAR(MAX),
+	@Id INT
+)AS BEGIN
+	UPDATE Difficulty SET [Name] = @Name WHERE IdDifficulty = @Id
+END
+GO
+
+CREATE PROCEDURE [PR_EditHikeType](
+	@Name VARCHAR(MAX),
+	@Id INT
+)AS BEGIN
+	UPDATE HikeType SET [Name] = @Name WHERE IdType = @Id
+END
+GO
+
+
+CREATE PROCEDURE [PR_ChangePassword](
+    @IdCard NUMERIC(20),
+    @OldPassword NVARCHAR(255),
+	@NewPassword NVARCHAR(255),
+    @responseMessage NVARCHAR(250)='' OUTPUT
+)AS BEGIN
+    SET NOCOUNT ON
+    DECLARE @userID INT
+	SET @userID=(SELECT [IdCard] FROM [User] WHERE IdCard=@IdCard AND PasswordHash=HASHBYTES('SHA2_512', @OldPassword+CAST(Salt AS NVARCHAR(36))))
+	IF(@userID IS NULL)
+		SET @responseMessage='Current Password do not match'
+	ELSE 
+		BEGIN TRY
+			DECLARE @Salt UNIQUEIDENTIFIER = NEWID()
+			UPDATE [User] SET PasswordHash = HASHBYTES('SHA2_512', @NewPassword + CAST(@salt AS NVARCHAR(36))), Salt = @Salt 
+				WHERE IdCard = @IdCard
+			SET @responseMessage='Profile correctly updated.'
+		END TRY
+		BEGIN CATCH
+			SET @responseMessage='Error'
+		END CATCH
+END
+GO
+
+CREATE PROCEDURE [PR_UpdateUser](
+	@IdCard NUMERIC(20),
+	@Username VARCHAR(25),
+    @FirstName VARCHAR(50),
+    @MiddleName VARCHAR(50) = NULL,
+    @LastName VARCHAR(50),
+    @SecondLastName VARCHAR(50) = NULL,
+	@responseMessage NVARCHAR(250) OUTPUT
+)AS BEGIN
+
+	BEGIN TRY
+		UPDATE [User] SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, SecondLastName = @SecondLastName WHERE IdCard = @IdCard
+		SET @responseMessage = 'Success'
+	END TRY
+	BEGIN CATCH
+		SET @responseMessage = 'Error'
+	END CATCH
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveAdmin](
+	@idAdmin NUMERIC(20)
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idAdmin,6)
+END
+GO
+
+ALTER PROCEDURE [PR_ActiveAdmin](
+	@idAdmin DECIMAL(20)
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idAdmin AND IdType = 6
+END
+GO
+
+CREATE PROCEDURE [PR_InactiveAdminICT](
+	@idAdmin NUMERIC(20)
+)AS BEGIN
+	INSERT INTO Inactives(IdObject,IdType)
+	VALUES(@idAdmin,7)
+END
+GO
+
+CREATE PROCEDURE [PR_ActiveAdminICT](
+	@idAdmin DECIMAL(20)
+)AS BEGIN
+	DELETE FROM Inactives WHERE IdObject = @idAdmin AND IdType = 7
 END
 GO

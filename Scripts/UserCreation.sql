@@ -26,16 +26,40 @@
 
 ---- Permisos del usuario administrador
 --GRANT EXEC ON [PR_CreateAdmin] TO AruAdmin
+--GRANT EXEC ON [PR_CreateAdminICT] TO AruAdmin
 --GRANT EXEC ON [PR_AdminLogin] TO AruAdmin
 --GRANT SELECT ON [View_User] TO AruAdmin
 --GRANT SELECT ON [View_Quality] TO AruAdmin
+--GRANT SELECT ON [View_Price] TO AruAdmin
+--GRANT SELECT ON [View_Difficulty] TO AruAdmin
+--GRANT SELECT ON [View_HikeType] TO AruAdmin
 --GRANT EXEC ON [PR_InactiveQuality] TO AruAdmin
+--GRANT EXEC ON [PR_InactiveAdminICT] TO AruAdmin
+--GRANT EXEC ON [PR_InactivePrice] TO AruAdmin
+--GRANT EXEC ON [PR_InactiveDifficulty] TO AruAdmin
+--GRANT EXEC ON [PR_InactiveHikeType] TO AruAdmin
+--GRANT EXEC ON [PR_InactiveAdmin] TO AruAdmin
 --GRANT EXEC ON [PR_ActiveQuality] TO AruAdmin
+--GRANT EXEC ON [PR_ActiveAdminICT] TO AruAdmin
+--GRANT EXEC ON [PR_ActivePrice] TO AruAdmin
+--GRANT EXEC ON [PR_ActiveDifficulty] TO AruAdmin
+--GRANT EXEC ON [PR_ActiveHikeType] TO AruAdmin
+--GRANT EXEC ON [PR_ActiveAdmin] TO AruAdmin
 --GRANT EXEC ON [PR_AddQuality] TO AruAdmin
+--GRANT EXEC ON [PR_AddPrice] TO AruAdmin
+--GRANT EXEC ON [PR_AddDifficulty] TO AruAdmin
+--GRANT EXEC ON [PR_AddHikeType] TO AruAdmin
 --GRANT EXEC ON [PR_EditQuality] TO AruAdmin
-
-
+--GRANT EXEC ON [PR_EditPrice] TO AruAdmin
+--GRANT EXEC ON [PR_EditDifficulty] TO AruAdmin
+--GRANT EXEC ON [PR_EditHikeType] TO AruAdmin
+--GRANT EXEC ON [PR_UpdateUser] TO AruAdmin
+--GRANT EXEC ON [PR_ChangePassword] TO AruAdmin
+--GRANT SELECT ON [View_Admin] TO AruAdmin
+--GRANT SELECT ON [View_AdminICT] TO AruAdmin
+--GRANT SELECT ON [View_Hiker] TO AruAdmin
+--GRANT EXEC ON [PR_ActiveHiker] TO AruAdmin
+--GRANT EXEC ON [PR_InactiveHiker] TO AruAdmin
+--GRANT SELECT ON [EventLog] TO AruAdmin
 
 GO
-
-

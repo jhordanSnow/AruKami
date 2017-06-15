@@ -47,4 +47,33 @@ namespace AruAdmin.Models
         public String _name;
         public List<CatalogModel> _listCatalog;
     }
+
+    public class CurrentUser
+    {
+        public int _type;
+        public String _name;
+        public List<Catalog_user> _listCatalog;
+    }
+
+    public partial class Catalog_user
+    {
+        public decimal IdCard { get; set; }
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string SecondLastName { get; set; }
+        public bool state { get; set; }
+
+        public Catalog_user(decimal IdCard, string Username, string FirstName, string MiddleName, string LastName, string SecondLastName, int? state)
+        {
+            this.IdCard = IdCard;
+            this.Username = Username;
+            this.FirstName = FirstName;
+            this.MiddleName = MiddleName;
+            this.LastName = LastName;
+            this.SecondLastName = SecondLastName;
+            this.state = (state == 0 || state == null);
+        }
+    }
 }

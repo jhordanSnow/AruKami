@@ -7,6 +7,13 @@
       <Diagram DiagramId="845f1d13f7634daab828fdc2e124be0d" Name="Diagram1" >
         <EntityTypeShape EntityType="AruKamiModel.View_User" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="AruKamiModel.View_Quality" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AruKamiModel.View_Difficulty" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AruKamiModel.View_HikeType" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AruKamiModel.View_Price" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AruKamiModel.View_Admin" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AruKamiModel.View_AdminICT" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AruKamiModel.View_Hiker" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AruKamiModel.EventLog" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

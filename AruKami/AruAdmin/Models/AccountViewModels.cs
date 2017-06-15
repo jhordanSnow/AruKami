@@ -69,7 +69,7 @@ namespace AruAdmin.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -88,7 +88,7 @@ namespace AruAdmin.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -108,4 +108,34 @@ namespace AruAdmin.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class ProfileEditViewModel
+    {
+        public ProfileViewModel profileData { get; set; }
+        public ChangePasswordViewModel changePass { get; set; }
+        public int type { get; set; }
+        public bool pass = true;
+
+    }
+
+    public class ProfileViewModel
+    {
+
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public decimal IdCard { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        public string MiddleName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        public string SecondLastName { get; set; }
+    }
+
 }

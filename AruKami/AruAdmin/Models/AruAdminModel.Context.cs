@@ -29,6 +29,13 @@ namespace AruAdmin.Models
     
         public virtual DbSet<View_User> View_User { get; set; }
         public virtual DbSet<View_Quality> View_Quality { get; set; }
+        public virtual DbSet<View_Difficulty> View_Difficulty { get; set; }
+        public virtual DbSet<View_HikeType> View_HikeType { get; set; }
+        public virtual DbSet<View_Price> View_Price { get; set; }
+        public virtual DbSet<View_Admin> View_Admin { get; set; }
+        public virtual DbSet<View_AdminICT> View_AdminICT { get; set; }
+        public virtual DbSet<View_Hiker> View_Hiker { get; set; }
+        public virtual DbSet<EventLog> EventLog { get; set; }
     
         public virtual int PR_AdminLogin(string username, string password, ObjectParameter responseMessage)
         {
@@ -114,6 +121,259 @@ namespace AruAdmin.Models
                 new ObjectParameter("Id", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_EditQuality", nameParameter, idParameter);
+        }
+    
+        public virtual int PR_ChangePassword(Nullable<decimal> idCard, string oldPassword, string newPassword, ObjectParameter responseMessage)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            var oldPasswordParameter = oldPassword != null ?
+                new ObjectParameter("OldPassword", oldPassword) :
+                new ObjectParameter("OldPassword", typeof(string));
+    
+            var newPasswordParameter = newPassword != null ?
+                new ObjectParameter("NewPassword", newPassword) :
+                new ObjectParameter("NewPassword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ChangePassword", idCardParameter, oldPasswordParameter, newPasswordParameter, responseMessage);
+        }
+    
+        public virtual int PR_UpdateUser(Nullable<decimal> idCard, string username, string firstName, string middleName, string lastName, string secondLastName, ObjectParameter responseMessage)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var middleNameParameter = middleName != null ?
+                new ObjectParameter("MiddleName", middleName) :
+                new ObjectParameter("MiddleName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            var secondLastNameParameter = secondLastName != null ?
+                new ObjectParameter("SecondLastName", secondLastName) :
+                new ObjectParameter("SecondLastName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateUser", idCardParameter, usernameParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, responseMessage);
+        }
+    
+        public virtual int PR_AddDifficulty(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_AddDifficulty", nameParameter);
+        }
+    
+        public virtual int PR_AddHikeType(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_AddHikeType", nameParameter);
+        }
+    
+        public virtual int PR_AddPrice(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_AddPrice", nameParameter);
+        }
+    
+        public virtual int PR_EditDifficulty(string name, Nullable<int> id)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_EditDifficulty", nameParameter, idParameter);
+        }
+    
+        public virtual int PR_EditHikeType(string name, Nullable<int> id)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_EditHikeType", nameParameter, idParameter);
+        }
+    
+        public virtual int PR_EditPrice(string name, Nullable<int> id)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_EditPrice", nameParameter, idParameter);
+        }
+    
+        public virtual int PR_ActiveDifficulty(Nullable<int> idDifficulty)
+        {
+            var idDifficultyParameter = idDifficulty.HasValue ?
+                new ObjectParameter("idDifficulty", idDifficulty) :
+                new ObjectParameter("idDifficulty", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ActiveDifficulty", idDifficultyParameter);
+        }
+    
+        public virtual int PR_ActiveHikeType(Nullable<int> idHikeType)
+        {
+            var idHikeTypeParameter = idHikeType.HasValue ?
+                new ObjectParameter("idHikeType", idHikeType) :
+                new ObjectParameter("idHikeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ActiveHikeType", idHikeTypeParameter);
+        }
+    
+        public virtual int PR_ActivePrice(Nullable<int> idPrice)
+        {
+            var idPriceParameter = idPrice.HasValue ?
+                new ObjectParameter("idPrice", idPrice) :
+                new ObjectParameter("idPrice", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ActivePrice", idPriceParameter);
+        }
+    
+        public virtual int PR_InactiveDifficulty(Nullable<int> idDifficulty)
+        {
+            var idDifficultyParameter = idDifficulty.HasValue ?
+                new ObjectParameter("idDifficulty", idDifficulty) :
+                new ObjectParameter("idDifficulty", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_InactiveDifficulty", idDifficultyParameter);
+        }
+    
+        public virtual int PR_InactiveHikeType(Nullable<decimal> idHikeType)
+        {
+            var idHikeTypeParameter = idHikeType.HasValue ?
+                new ObjectParameter("idHikeType", idHikeType) :
+                new ObjectParameter("idHikeType", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_InactiveHikeType", idHikeTypeParameter);
+        }
+    
+        public virtual int PR_InactivePrice(Nullable<int> idPrice)
+        {
+            var idPriceParameter = idPrice.HasValue ?
+                new ObjectParameter("idPrice", idPrice) :
+                new ObjectParameter("idPrice", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_InactivePrice", idPriceParameter);
+        }
+    
+        public virtual int PR_ActiveAdmin(Nullable<decimal> idAdmin)
+        {
+            var idAdminParameter = idAdmin.HasValue ?
+                new ObjectParameter("idAdmin", idAdmin) :
+                new ObjectParameter("idAdmin", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ActiveAdmin", idAdminParameter);
+        }
+    
+        public virtual int PR_InactiveAdmin(Nullable<decimal> idAdmin)
+        {
+            var idAdminParameter = idAdmin.HasValue ?
+                new ObjectParameter("idAdmin", idAdmin) :
+                new ObjectParameter("idAdmin", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_InactiveAdmin", idAdminParameter);
+        }
+    
+        public virtual int PR_CreateAdminICT(Nullable<decimal> idCard, string username, string password, string firstName, string middleName, string lastName, string secondLastName, ObjectParameter responseMessage)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var middleNameParameter = middleName != null ?
+                new ObjectParameter("MiddleName", middleName) :
+                new ObjectParameter("MiddleName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            var secondLastNameParameter = secondLastName != null ?
+                new ObjectParameter("SecondLastName", secondLastName) :
+                new ObjectParameter("SecondLastName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateAdminICT", idCardParameter, usernameParameter, passwordParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, responseMessage);
+        }
+    
+        public virtual int PR_ActiveAdminICT(Nullable<decimal> idAdmin)
+        {
+            var idAdminParameter = idAdmin.HasValue ?
+                new ObjectParameter("idAdmin", idAdmin) :
+                new ObjectParameter("idAdmin", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ActiveAdminICT", idAdminParameter);
+        }
+    
+        public virtual int PR_InactiveAdminICT(Nullable<decimal> idAdmin)
+        {
+            var idAdminParameter = idAdmin.HasValue ?
+                new ObjectParameter("idAdmin", idAdmin) :
+                new ObjectParameter("idAdmin", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_InactiveAdminICT", idAdminParameter);
+        }
+    
+        public virtual int PR_ActiveHiker(Nullable<decimal> idHiker)
+        {
+            var idHikerParameter = idHiker.HasValue ?
+                new ObjectParameter("idHiker", idHiker) :
+                new ObjectParameter("idHiker", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_ActiveHiker", idHikerParameter);
+        }
+    
+        public virtual int PR_InactiveHiker(Nullable<decimal> idHiker)
+        {
+            var idHikerParameter = idHiker.HasValue ?
+                new ObjectParameter("idHiker", idHiker) :
+                new ObjectParameter("idHiker", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_InactiveHiker", idHikerParameter);
         }
     }
 }

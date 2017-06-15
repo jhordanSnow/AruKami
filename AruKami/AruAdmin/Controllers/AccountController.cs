@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Globalization;
@@ -77,7 +78,6 @@ namespace AruAdmin.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             Authentication.SignOut();
@@ -85,6 +85,58 @@ namespace AruAdmin.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-       
+        public ActionResult UserProfile()
+        {
+            bool error = false;
+            var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
+
+            View_User loggedUser = db.View_User.FirstOrDefault(m => m.IdCard == identity.User.IdCard);
+            ProfileEditViewModel model = new ProfileEditViewModel();
+
+            model.profileData = new ProfileViewModel();
+            model.profileData.IdCard = loggedUser.IdCard;
+            model.profileData.FirstName = loggedUser.FirstName;
+            model.profileData.LastName = loggedUser.LastName;
+            model.profileData.Username = loggedUser.Username;
+            model.profileData.MiddleName = loggedUser.MiddleName;
+            model.profileData.SecondLastName = loggedUser.SecondLastName;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult UserProfile(ProfileEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ObjectParameter output = new ObjectParameter("responseMessage", typeof(string));
+                db.PR_UpdateUser(model.profileData.IdCard, model.profileData.Username, model.profileData.FirstName,
+                    model.profileData.MiddleName, model.profileData.LastName, model.profileData.SecondLastName, output);
+
+                if (output.Value.Equals("Success"))
+                {
+                    TempData["Success"] = "Good.";
+                }
+                else
+                {
+                    ModelState.AddModelError("", output.Value.ToString());
+                }
+
+                return View("UserProfile", model);
+            }
+            return View("UserProfile", model);
+        }
+
+        public ActionResult ChangePassword(ProfileEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ObjectParameter output = new ObjectParameter("responseMessage", typeof(string));
+                db.PR_ChangePassword(model.profileData.IdCard, model.changePass.OldPassword, model.changePass.NewPassword, output);
+                ModelState.AddModelError("", output.Value.ToString());
+                return View("UserProfile", model);
+            }
+            return View("UserProfile", model);
+        }
+
     }
 }

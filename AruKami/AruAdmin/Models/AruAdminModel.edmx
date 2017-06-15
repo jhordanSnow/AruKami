@@ -5,6 +5,101 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AruKamiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EventLog">
+          <Key>
+            <PropertyRef Name="IdEvent" />
+          </Key>
+          <Property Name="IdEvent" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="User" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ChangeType" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="AffectedTable" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_Admin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Admin">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecondLastName" Type="varchar" MaxLength="50" />
+          <Property Name="Inactive" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_AdminICT' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_AdminICT">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecondLastName" Type="varchar" MaxLength="50" />
+          <Property Name="Inactive" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_Difficulty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Difficulty">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Inactive" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_Hiker' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Hiker">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="BirthDate" />
+            <PropertyRef Name="Nationality" />
+          </Key>
+          <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="203" Nullable="false" />
+          <Property Name="Gender" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="Nationality" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Inactive" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_HikeType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_HikeType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Inactive" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AruKami.dbo.View_Price' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Inactive" Type="int" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'AruKami.dbo.View_Quality' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="View_Quality">
@@ -32,8 +127,35 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SecondLastName" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Function Name="PR_ActiveAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idAdmin" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="PR_ActiveAdminICT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idAdmin" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="PR_ActiveDifficulty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idDifficulty" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_ActiveHiker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idHiker" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="PR_ActiveHikeType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idHikeType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_ActivePrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPrice" Type="int" Mode="In" />
+        </Function>
         <Function Name="PR_ActiveQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idQuality" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_AddDifficulty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="PR_AddHikeType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="PR_AddPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="PR_AddQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Name" Type="varchar(max)" Mode="In" />
@@ -41,6 +163,12 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
         <Function Name="PR_AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="nvarchar" Mode="In" />
           <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="PR_ChangePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+          <Parameter Name="OldPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="NewPassword" Type="nvarchar" Mode="In" />
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="PR_CreateAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -53,14 +181,117 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
           <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
+        <Function Name="PR_CreateAdminICT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="PR_EditDifficulty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_EditHikeType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_EditPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="PR_EditQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Name" Type="varchar(max)" Mode="In" />
           <Parameter Name="Id" Type="int" Mode="In" />
         </Function>
+        <Function Name="PR_InactiveAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idAdmin" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="PR_InactiveAdminICT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idAdmin" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="PR_InactiveDifficulty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idDifficulty" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_InactiveHiker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idHiker" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="PR_InactiveHikeType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idHikeType" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="PR_InactivePrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPrice" Type="int" Mode="In" />
+        </Function>
         <Function Name="PR_InactiveQuality" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idQuality" Type="int" Mode="In" />
         </Function>
+        <Function Name="PR_UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
+          <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
         <EntityContainer Name="AruKamiModelStoreContainer">
+          <EntitySet Name="EventLog" EntityType="Self.EventLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_Admin" EntityType="Self.View_Admin" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Admin].[IdCard] AS [IdCard], 
+    [View_Admin].[Username] AS [Username], 
+    [View_Admin].[FirstName] AS [FirstName], 
+    [View_Admin].[MiddleName] AS [MiddleName], 
+    [View_Admin].[LastName] AS [LastName], 
+    [View_Admin].[SecondLastName] AS [SecondLastName], 
+    [View_Admin].[Inactive] AS [Inactive]
+    FROM [dbo].[View_Admin] AS [View_Admin]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_AdminICT" EntityType="Self.View_AdminICT" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_AdminICT].[IdCard] AS [IdCard], 
+    [View_AdminICT].[Username] AS [Username], 
+    [View_AdminICT].[FirstName] AS [FirstName], 
+    [View_AdminICT].[MiddleName] AS [MiddleName], 
+    [View_AdminICT].[LastName] AS [LastName], 
+    [View_AdminICT].[SecondLastName] AS [SecondLastName], 
+    [View_AdminICT].[Inactive] AS [Inactive]
+    FROM [dbo].[View_AdminICT] AS [View_AdminICT]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Difficulty" EntityType="Self.View_Difficulty" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Difficulty].[Id] AS [Id], 
+    [View_Difficulty].[Name] AS [Name], 
+    [View_Difficulty].[Inactive] AS [Inactive]
+    FROM [dbo].[View_Difficulty] AS [View_Difficulty]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Hiker" EntityType="Self.View_Hiker" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Hiker].[IdCard] AS [IdCard], 
+    [View_Hiker].[Name] AS [Name], 
+    [View_Hiker].[Gender] AS [Gender], 
+    [View_Hiker].[BirthDate] AS [BirthDate], 
+    [View_Hiker].[Nationality] AS [Nationality], 
+    [View_Hiker].[Inactive] AS [Inactive]
+    FROM [dbo].[View_Hiker] AS [View_Hiker]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_HikeType" EntityType="Self.View_HikeType" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_HikeType].[Id] AS [Id], 
+    [View_HikeType].[Name] AS [Name], 
+    [View_HikeType].[Inactive] AS [Inactive]
+    FROM [dbo].[View_HikeType] AS [View_HikeType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Price" EntityType="Self.View_Price" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Price].[Id] AS [Id], 
+    [View_Price].[Name] AS [Name], 
+    [View_Price].[Inactive] AS [Inactive]
+    FROM [dbo].[View_Price] AS [View_Price]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="View_Quality" EntityType="Self.View_Quality" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [View_Quality].[Id] AS [Id], 
@@ -114,6 +345,95 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
             <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="PR_ChangePassword">
+            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+            <Parameter Name="OldPassword" Mode="In" Type="String" />
+            <Parameter Name="NewPassword" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_UpdateUser">
+            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="SecondLastName" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="View_Difficulty" EntityType="AruKamiModel.View_Difficulty" />
+          <EntitySet Name="View_HikeType" EntityType="AruKamiModel.View_HikeType" />
+          <EntitySet Name="View_Price" EntityType="AruKamiModel.View_Price" />
+          <FunctionImport Name="PR_AddDifficulty">
+          <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_AddHikeType">
+          <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_AddPrice">
+          <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_EditDifficulty">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_EditHikeType">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_EditPrice">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_ActiveDifficulty">
+          <Parameter Name="idDifficulty" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_ActiveHikeType">
+          <Parameter Name="idHikeType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_ActivePrice">
+          <Parameter Name="idPrice" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_InactiveDifficulty">
+          <Parameter Name="idDifficulty" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_InactiveHikeType">
+          <Parameter Name="idHikeType" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_InactivePrice">
+          <Parameter Name="idPrice" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="View_Admin" EntityType="AruKamiModel.View_Admin" />
+          <EntitySet Name="View_AdminICT" EntityType="AruKamiModel.View_AdminICT" />
+          <FunctionImport Name="PR_ActiveAdmin">
+          <Parameter Name="idAdmin" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_InactiveAdmin">
+          <Parameter Name="idAdmin" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_CreateAdminICT">
+            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="SecondLastName" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_ActiveAdminICT">
+          <Parameter Name="idAdmin" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_InactiveAdminICT">
+          <Parameter Name="idAdmin" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="View_Hiker" EntityType="AruKamiModel.View_Hiker" />
+          <FunctionImport Name="PR_ActiveHiker">
+          <Parameter Name="idHiker" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_InactiveHiker">
+          <Parameter Name="idHiker" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="EventLog" EntityType="AruKamiModel.EventLog" />
         </EntityContainer>
         <EntityType Name="View_User">
           <Key>
@@ -137,6 +457,89 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="Inactive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_Difficulty">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Inactive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_HikeType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Inactive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_Price">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Inactive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_Admin">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="IdCard" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SecondLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Inactive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_AdminICT">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="IdCard" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SecondLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Inactive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_Hiker">
+          <Key>
+            <PropertyRef Name="IdCard" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="BirthDate" />
+            <PropertyRef Name="Nationality" />
+          </Key>
+          <Property Name="IdCard" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="203" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Nationality" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Inactive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="EventLog">
+          <Key>
+            <PropertyRef Name="IdEvent" />
+          </Key>
+          <Property Name="IdEvent" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ChangeType" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AffectedTable" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -171,6 +574,104 @@ warning 6002: The table/view 'AruKami.dbo.View_User' does not have a primary key
           <FunctionImportMapping FunctionImportName="PR_ActiveQuality" FunctionName="AruKamiModel.Store.PR_ActiveQuality" />
           <FunctionImportMapping FunctionImportName="PR_AddQuality" FunctionName="AruKamiModel.Store.PR_AddQuality" />
           <FunctionImportMapping FunctionImportName="PR_EditQuality" FunctionName="AruKamiModel.Store.PR_EditQuality" />
+          <FunctionImportMapping FunctionImportName="PR_ChangePassword" FunctionName="AruKamiModel.Store.PR_ChangePassword" />
+          <FunctionImportMapping FunctionImportName="PR_UpdateUser" FunctionName="AruKamiModel.Store.PR_UpdateUser" />
+          <EntitySetMapping Name="View_Difficulty">
+            <EntityTypeMapping TypeName="AruKamiModel.View_Difficulty">
+              <MappingFragment StoreEntitySet="View_Difficulty">
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_HikeType">
+            <EntityTypeMapping TypeName="AruKamiModel.View_HikeType">
+              <MappingFragment StoreEntitySet="View_HikeType">
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Price">
+            <EntityTypeMapping TypeName="AruKamiModel.View_Price">
+              <MappingFragment StoreEntitySet="View_Price">
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PR_AddDifficulty" FunctionName="AruKamiModel.Store.PR_AddDifficulty" />
+          <FunctionImportMapping FunctionImportName="PR_AddHikeType" FunctionName="AruKamiModel.Store.PR_AddHikeType" />
+          <FunctionImportMapping FunctionImportName="PR_AddPrice" FunctionName="AruKamiModel.Store.PR_AddPrice" />
+          <FunctionImportMapping FunctionImportName="PR_EditDifficulty" FunctionName="AruKamiModel.Store.PR_EditDifficulty" />
+          <FunctionImportMapping FunctionImportName="PR_EditHikeType" FunctionName="AruKamiModel.Store.PR_EditHikeType" />
+          <FunctionImportMapping FunctionImportName="PR_EditPrice" FunctionName="AruKamiModel.Store.PR_EditPrice" />
+          <FunctionImportMapping FunctionImportName="PR_ActiveDifficulty" FunctionName="AruKamiModel.Store.PR_ActiveDifficulty" />
+          <FunctionImportMapping FunctionImportName="PR_ActiveHikeType" FunctionName="AruKamiModel.Store.PR_ActiveHikeType" />
+          <FunctionImportMapping FunctionImportName="PR_ActivePrice" FunctionName="AruKamiModel.Store.PR_ActivePrice" />
+          <FunctionImportMapping FunctionImportName="PR_InactiveDifficulty" FunctionName="AruKamiModel.Store.PR_InactiveDifficulty" />
+          <FunctionImportMapping FunctionImportName="PR_InactiveHikeType" FunctionName="AruKamiModel.Store.PR_InactiveHikeType" />
+          <FunctionImportMapping FunctionImportName="PR_InactivePrice" FunctionName="AruKamiModel.Store.PR_InactivePrice" />
+          <EntitySetMapping Name="View_Admin">
+            <EntityTypeMapping TypeName="AruKamiModel.View_Admin">
+              <MappingFragment StoreEntitySet="View_Admin">
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="SecondLastName" ColumnName="SecondLastName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_AdminICT">
+            <EntityTypeMapping TypeName="AruKamiModel.View_AdminICT">
+              <MappingFragment StoreEntitySet="View_AdminICT">
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="SecondLastName" ColumnName="SecondLastName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PR_ActiveAdmin" FunctionName="AruKamiModel.Store.PR_ActiveAdmin" />
+          <FunctionImportMapping FunctionImportName="PR_InactiveAdmin" FunctionName="AruKamiModel.Store.PR_InactiveAdmin" />
+          <FunctionImportMapping FunctionImportName="PR_CreateAdminICT" FunctionName="AruKamiModel.Store.PR_CreateAdminICT" />
+          <FunctionImportMapping FunctionImportName="PR_ActiveAdminICT" FunctionName="AruKamiModel.Store.PR_ActiveAdminICT" />
+          <FunctionImportMapping FunctionImportName="PR_InactiveAdminICT" FunctionName="AruKamiModel.Store.PR_InactiveAdminICT" />
+          <EntitySetMapping Name="View_Hiker">
+            <EntityTypeMapping TypeName="AruKamiModel.View_Hiker">
+              <MappingFragment StoreEntitySet="View_Hiker">
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PR_ActiveHiker" FunctionName="AruKamiModel.Store.PR_ActiveHiker" />
+          <FunctionImportMapping FunctionImportName="PR_InactiveHiker" FunctionName="AruKamiModel.Store.PR_InactiveHiker" />
+          <EntitySetMapping Name="EventLog">
+            <EntityTypeMapping TypeName="AruKamiModel.EventLog">
+              <MappingFragment StoreEntitySet="EventLog">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AffectedTable" ColumnName="AffectedTable" />
+                <ScalarProperty Name="ChangeType" ColumnName="ChangeType" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IdEvent" ColumnName="IdEvent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

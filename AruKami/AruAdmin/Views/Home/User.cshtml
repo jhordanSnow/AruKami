@@ -1,0 +1,113 @@
+﻿@model AruAdmin.Models.CurrentUser
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <a class="col-md-6 btn btn-success fa fa-plus" href="@Url.Action("Create", "Home", new {id = Model._type})">   Create</a>
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">@Model._name</h3>
+    </div>
+    <div class="box-body">
+        <table id="checkout" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayName("Name")</th>
+                    <th>@Html.DisplayName("Username")</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model._listCatalog)
+                {
+                    <tr>
+                        <td>@item.FirstName @item.MiddleName @item.LastName @item.SecondLastName</td>
+                        <td>@item.Username</td>
+                        <td align="center">
+                            <a class="btn btn-primary fa fa-pencil-square" href="@Url.Action("Edit", "Home", new {id = Model._type, item = item.IdCard})" ></a>
+                            @{
+                                if (@item.state)
+                                {
+                                    <a class="btn btn-danger fa fa-ban" data-toggle="modal" data-target="#modalDelete" data-name="@item.Username" data-type-id="@Model._type" data-item-id="@item.IdCard"></a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success fa fa-check-circle" data-toggle="modal" data-target="#modalActivar" data-name="@item.Username" data-type-id="@Model._type" data-item-id="@item.IdCard"></a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal modal-danger" id="modalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <form id="deleteForm" action="" method="post">
+                <div class="modal-body">
+                    <p>Do you really wanna delete the item?</p>
+                    <p><i>Note: if the item is been used is gonna be disabled.</i></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-outline">Delete</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+
+<div class="modal modal-success" id="modalActivar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <form id="activarForm" action="" method="post">
+                <div class="modal-body">
+                    <p>activar esta mierda ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-outline">Activate</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+    @Scripts.Render("~/Scripts/Checks/Table")
+    @Scripts.Render("~/Scripts/Catalog/Index")
+}

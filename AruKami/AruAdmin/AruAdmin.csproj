@@ -220,8 +220,29 @@
       <DependentUpon>AruAdminModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\CatalogModel.cs" />
+    <Compile Include="Models\EventLog.cs">
+      <DependentUpon>AruAdminModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\View_Admin.cs">
+      <DependentUpon>AruAdminModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_AdminICT.cs">
+      <DependentUpon>AruAdminModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_Difficulty.cs">
+      <DependentUpon>AruAdminModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_Hiker.cs">
+      <DependentUpon>AruAdminModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_HikeType.cs">
+      <DependentUpon>AruAdminModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_Price.cs">
+      <DependentUpon>AruAdminModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\View_Quality.cs">
       <DependentUpon>AruAdminModel.tt</DependentUpon>
     </Compile>
@@ -1179,7 +1200,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\User.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -1201,6 +1222,10 @@
     <Content Include="Views\AdminLte\Index.cshtml" />
     <Content Include="Views\AdminLte\Colors.cshtml" />
     <Content Include="Views\Catalog\Index.cshtml" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Home\Hiker.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
