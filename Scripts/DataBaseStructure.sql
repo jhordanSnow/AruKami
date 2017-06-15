@@ -62,12 +62,14 @@ CREATE TABLE [District] (
   CONSTRAINT FK_IdCanton FOREIGN KEY(IdCanton) REFERENCES [Canton]
 );
 GO
+
 CREATE TABLE [Hiker](
 	[IdCard] NUMERIC(20) NOT NULL,
 	[Gender] CHAR(1) NOT NULL CHECK(Gender = 'M' OR Gender = 'F'),
 	[BirthDate] DATE NOT NULL,
 	[Nationality] INT NOT NULL,
-	[AccountNumber] NUMERIC(20) NOT NULL
+	[AccountNumber] NUMERIC(20) NOT NULL,
+	[PhotoURL] VARCHAR(255)
 	CONSTRAINT PK_HikerIdCard PRIMARY KEY(IdCard),
 	CONSTRAINT FK_UserIdCard FOREIGN KEY(IdCard) REFERENCES [User],
 	CONSTRAINT FK_UserCountry FOREIGN KEY(Nationality) REFERENCES [Country]

@@ -23,5 +23,6 @@ namespace AruKami.Models
         public System.DateTime BirthDate { get; set; }
         public int Nationality { get; set; }
         public decimal AccountNumber { get; set; }
+        public string PhotoURL { get; set; }
     }
 }

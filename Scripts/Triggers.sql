@@ -1,3 +1,8 @@
+USE AruKami
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---NEW Something Triggers ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER NewUser
 	ON dbo.[User]
@@ -183,7 +188,78 @@ AS BEGIN
 	VALUES (@description , @creator, @type , @table , @date)
 END
 GO
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TRIGGER NewAdmin
+	ON dbo.[Admin]
+	AFTER INSERT
+AS BEGIN
+	SET NOCOUNT ON
+	DECLARE @idAdmin NUMERIC(20);
+	DECLARE @adminUsername VARCHAR(25);
+	DECLARE @description VARCHAR(MAX);
+	DECLARE @creator VARCHAR(50);
+	DECLARE @date DATETIME;
+	DECLARE @type VARCHAR(50);
+    DECLARE @table VARCHAR(50);
+
+	SET @creator = SYSTEM_USER
+	SET @date = GETDATE()
+	SET @type = 'Insert'
+    SET @table = 'Admin'
+
+	SELECT @idAdmin = IdCard
+	FROM INSERTED
+
+	SET @adminUsername = (SELECT Username
+						  FROM [User]
+						  WHERE @idAdmin = IdCard)
+
+
+	SET @description = 'The user with the username ' + @adminUsername + ' and the Id ' + CONVERT(NVARCHAR(20),@idAdmin) + ' is now an administrator.'
+
+	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
+	VALUES (@description , @creator, @type , @table , @date)
+END
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TRIGGER NewAdminICT
+	ON dbo.[AdminICT]
+	AFTER INSERT
+AS BEGIN
+	SET NOCOUNT ON
+	DECLARE @idAdminICT NUMERIC(20);
+	DECLARE @adminICTUsername VARCHAR(25);
+	DECLARE @description VARCHAR(MAX);
+	DECLARE @creator VARCHAR(50);
+	DECLARE @date DATETIME;
+	DECLARE @type VARCHAR(50);
+    DECLARE @table VARCHAR(50);
+
+	SET @creator = SYSTEM_USER
+	SET @date = GETDATE()
+	SET @type = 'Insert'
+    SET @table = 'Admin'
+
+	SELECT @idAdminICT = IdCard
+	FROM INSERTED
+
+	SET @adminICTUsername = (SELECT Username
+						     FROM [User]
+						     WHERE @idAdminICT = IdCard)
+
+	SET @description = 'The user with the username ' + @adminICTUsername + ' and the Id ' + CONVERT(NVARCHAR(20),@idAdminICT) + ' is now an ICT administrator.'
+
+	INSERT INTO EventLog([Description],[User],ChangeType,AffectedTable,[Date])
+	VALUES (@description , @creator, @type , @table , @date)
+END
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---DELETE Something Triggers ------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER DeleteDifficulty
 	ON dbo.Difficulty
@@ -299,7 +375,9 @@ AS BEGIN
 	VALUES (@description , @creator, @type , @table , @date)
 END
 GO
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---UPDATE Something Triggers ------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER UpdateDifficulty
 	ON dbo.Difficulty
@@ -350,7 +428,7 @@ AS BEGIN
 
 	SET @creator = SYSTEM_USER
 	SET @date = GETDATE()
-	SET @type = 'Delete'
+	SET @type = 'Update'
     SET @table = 'Price'
 
 	SELECT @oldName = [Name]
@@ -383,7 +461,7 @@ AS BEGIN
 
 	SET @creator = SYSTEM_USER
 	SET @date = GETDATE()
-	SET @type = 'Delete'
+	SET @type = 'Update'
     SET @table = 'Quality'
 
 	SELECT @oldName = [Name]
@@ -416,7 +494,7 @@ AS BEGIN
 
 	SET @creator = SYSTEM_USER
 	SET @date = GETDATE()
-	SET @type = 'Delete'
+	SET @type = 'Update'
     SET @table = 'HikeType'
 
 	SELECT @oldName = [Name]
@@ -487,7 +565,7 @@ END
 GO
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CREATE TRIGGER UpdateHiker
+Create TRIGGER UpdateHiker
 	ON dbo.Hiker
 	AFTER UPDATE
 AS BEGIN
@@ -496,7 +574,7 @@ AS BEGIN
 	DECLARE @idCard VARCHAR(50);
 	DECLARE @username VARCHAR(25);
 	DECLARE @creator VARCHAR(50);
-	DECLARE @description VARCHAR(MAX);
+	DECLARE @description VARCHAR(MAX) ;
 	DECLARE @date DATETIME;
 	DECLARE @type VARCHAR(50);
     DECLARE @table VARCHAR(50);
@@ -508,6 +586,8 @@ AS BEGIN
 	DECLARE @newNationality VARCHAR(50);
 	DECLARE @oldAccountNumber VARCHAR(50);
 	DECLARE @newAccountNumber VARCHAR(50);
+	DECLARE @oldPhoto VARCHAR(255);
+	DECLARE @newPhoto VARCHAR(255);
 
 	SET @creator = SYSTEM_USER
 	SET @date = GETDATE()
@@ -515,22 +595,24 @@ AS BEGIN
     SET @table = 'Hiker'
 
 	SELECT @idCard = CONVERT(NVARCHAR(MAX), IdCard)
-	FROM INSERTED
+	FROM DELETED
 	
 	SET @username = (SELECT U.Username 
 					 FROM [USER] U 
 					 WHERE CONVERT(NUMERIC(50), @idCard) = U.IdCard)
 
-	SELECT @oldGender = CONVERT(NVARCHAR(MAX),Gender),
+	SELECT @oldGender = CONVERT(NVARCHAR(1),Gender),
 		   @oldBirthdate = CONVERT(NVARCHAR(MAX),BirthDate),
 		   @oldNationality = CONVERT(NVARCHAR(MAX),Nationality),
-		   @oldAccountNumber = CONVERT(NVARCHAR(MAX),AccountNumber)
+		   @oldAccountNumber = CONVERT(NVARCHAR(MAX),AccountNumber),
+		   @oldPhoto = PhotoUrl
 	FROM DELETED		   
 
-	SELECT @newGender = CONVERT(NVARCHAR(MAX),Gender),
+	SELECT @newGender = CONVERT(NVARCHAR(1),Gender),
 		   @newBirthdate = CONVERT(NVARCHAR(MAX),BirthDate),
 		   @newNationality = CONVERT(NVARCHAR(MAX),Nationality),
-		   @newAccountNumber = CONVERT(NVARCHAR(MAX),AccountNumber)
+		   @newAccountNumber = CONVERT(NVARCHAR(MAX),AccountNumber),
+		   @newPhoto = PhotoUrl
 	FROM INSERTED	
 
 	SET @description = 'Data of the hiker with the username ' + @username + ' was updated. '
@@ -543,15 +625,18 @@ AS BEGIN
 	VALUES (@description , @creator, @type , @table , @date)
 END
 GO
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---Inactives Table Triggers -------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TRIGGER NewInactive
 	ON dbo.Inactives
 	AFTER INSERT
 AS BEGIN
 	SET NOCOUNT ON
-	DECLARE @idObjectInserted INT;
+	DECLARE @idObjectInserted NUMERIC(20);
 	DECLARE @idTypeInserted INT;
+	DECLARE @idCardAdmin NUMERIC(20);
 	DECLARE @idObjectName VARCHAR(50);
 	DECLARE @idTypeName VARCHAR(50);
 	DECLARE @description VARCHAR(MAX);
@@ -575,6 +660,8 @@ AS BEGIN
 					   WHEN 3 THEN 'The difficulty level named '
 					   WHEN 4 THEN 'The hike type named '
 					   WHEN 5 THEN 'The hiker with the IdCard '
+					   WHEN 6 THEN 'The administrator with the IdCard '
+					   WHEN 7 THEN 'The ICT administrator with the IdCard '
 					   ELSE 'Other '
 					   END)
 
@@ -584,6 +671,8 @@ AS BEGIN
 					     WHEN 3 THEN (SELECT D.[Name] FROM Difficulty D WHERE D.IdDifficulty = @idObjectInserted)
 					     WHEN 4 THEN (SELECT HT.[Name] FROM HikeType HT WHERE HT.IdType = @idObjectInserted)
 					     WHEN 5 THEN CONVERT(NVARCHAR(MAX),@idObjectInserted)
+						 WHEN 6 THEN CONVERT(NVARCHAR(MAX),@idObjectInserted)
+						 WHEN 7 THEN CONVERT(NVARCHAR(MAX),@idObjectInserted)
 					     ELSE 'Other'
 					     END)
 
@@ -600,7 +689,7 @@ CREATE TRIGGER DeleteInactive
 	AFTER DELETE
 AS BEGIN
 	SET NOCOUNT ON
-	DECLARE @idObjectDeleted INT;
+	DECLARE @idObjectDeleted NUMERIC(20);
 	DECLARE @idTypeDeleted INT;
 	DECLARE @idObjectName VARCHAR(50);
 	DECLARE @idTypeName VARCHAR(50);
@@ -625,6 +714,8 @@ AS BEGIN
 					   WHEN 3 THEN 'The difficulty level named '
 					   WHEN 4 THEN 'The hike type named '
 					   WHEN 5 THEN 'The hiker with the IdCard '
+					   WHEN 6 THEN 'The administrator with the IdCard '
+					   WHEN 7 THEN 'The ICT administrator with the IdCard '
 					   ELSE 'Other '
 					   END)
 
@@ -634,6 +725,8 @@ AS BEGIN
 					     WHEN 3 THEN (SELECT D.[Name] FROM Difficulty D WHERE D.IdDifficulty = @idObjectDeleted)
 					     WHEN 4 THEN (SELECT HT.[Name] FROM HikeType HT WHERE HT.IdType = @idObjectDeleted)
 					     WHEN 5 THEN CONVERT(NVARCHAR(MAX),@idObjectDeleted)
+						 WHEN 6 THEN CONVERT(NVARCHAR(MAX),@idObjectDeleted)
+						 WHEN 7 THEN CONVERT(NVARCHAR(MAX),@idObjectDeleted)
 					     ELSE 'Other'
 					     END)
 
@@ -644,8 +737,5 @@ AS BEGIN
 END
 GO
 
-EXEC PR_InactiveQuality 2
 
-EXEC PR_ActiveQuality 2
 
-SELECT * FROM EventLog

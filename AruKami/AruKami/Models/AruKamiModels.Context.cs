@@ -87,7 +87,42 @@ namespace AruKami.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateHike", nameParameter, startDateParameter, endDateParameter, routeParameter, photoParameter, districtParameter, qualityLevelParameter, priceLevelParameter, difficultyParameter, hikeTypeParameter, startPointParameter, endPointParameter, responseMessage);
         }
     
-        public virtual int PR_CreateHiker(Nullable<decimal> idCard, string username, string password, string firstName, string middleName, string lastName, string secondLastName, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, Nullable<decimal> accountNumber, ObjectParameter responseMessage)
+        public virtual int PR_CreatePoint(string latitude, string longitude, ObjectParameter idPoint, ObjectParameter responseMessage)
+        {
+            var latitudeParameter = latitude != null ?
+                new ObjectParameter("Latitude", latitude) :
+                new ObjectParameter("Latitude", typeof(string));
+    
+            var longitudeParameter = longitude != null ?
+                new ObjectParameter("Longitude", longitude) :
+                new ObjectParameter("Longitude", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreatePoint", latitudeParameter, longitudeParameter, idPoint, responseMessage);
+        }
+    
+        public virtual int PR_HikerLogin(string username, string password, ObjectParameter responseMessage, ObjectParameter idCard)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_HikerLogin", usernameParameter, passwordParameter, responseMessage, idCard);
+        }
+    
+        public virtual ObjectResult<PR_GetUser_Result> PR_GetUser(Nullable<decimal> idCard)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetUser_Result>("PR_GetUser", idCardParameter);
+        }
+    
+        public virtual int PR_CreateHiker(Nullable<decimal> idCard, string username, string password, string firstName, string middleName, string lastName, string secondLastName, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string photoURL, Nullable<decimal> accountNumber, ObjectParameter responseMessage)
         {
             var idCardParameter = idCard.HasValue ?
                 new ObjectParameter("IdCard", idCard) :
@@ -129,46 +164,15 @@ namespace AruKami.Models
                 new ObjectParameter("Nationality", nationality) :
                 new ObjectParameter("Nationality", typeof(int));
     
+            var photoURLParameter = photoURL != null ?
+                new ObjectParameter("PhotoURL", photoURL) :
+                new ObjectParameter("PhotoURL", typeof(string));
+    
             var accountNumberParameter = accountNumber.HasValue ?
                 new ObjectParameter("AccountNumber", accountNumber) :
                 new ObjectParameter("AccountNumber", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateHiker", idCardParameter, usernameParameter, passwordParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, genderParameter, birthDateParameter, nationalityParameter, accountNumberParameter, responseMessage);
-        }
-    
-        public virtual int PR_CreatePoint(string latitude, string longitude, ObjectParameter idPoint, ObjectParameter responseMessage)
-        {
-            var latitudeParameter = latitude != null ?
-                new ObjectParameter("Latitude", latitude) :
-                new ObjectParameter("Latitude", typeof(string));
-    
-            var longitudeParameter = longitude != null ?
-                new ObjectParameter("Longitude", longitude) :
-                new ObjectParameter("Longitude", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreatePoint", latitudeParameter, longitudeParameter, idPoint, responseMessage);
-        }
-    
-        public virtual ObjectResult<PR_GetUser_Result> PR_GetUser(Nullable<decimal> idCard)
-        {
-            var idCardParameter = idCard.HasValue ?
-                new ObjectParameter("IdCard", idCard) :
-                new ObjectParameter("IdCard", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetUser_Result>("PR_GetUser", idCardParameter);
-        }
-    
-        public virtual int PR_HikerLogin(string username, string password, ObjectParameter responseMessage, ObjectParameter idCard)
-        {
-            var usernameParameter = username != null ?
-                new ObjectParameter("Username", username) :
-                new ObjectParameter("Username", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("Password", password) :
-                new ObjectParameter("Password", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_HikerLogin", usernameParameter, passwordParameter, responseMessage, idCard);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateHiker", idCardParameter, usernameParameter, passwordParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, genderParameter, birthDateParameter, nationalityParameter, photoURLParameter, accountNumberParameter, responseMessage);
         }
     }
 }

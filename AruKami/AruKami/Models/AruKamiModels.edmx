@@ -91,6 +91,7 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           <Parameter Name="Gender" Type="char" Mode="In" />
           <Parameter Name="BirthDate" Type="date" Mode="In" />
           <Parameter Name="Nationality" Type="int" Mode="In" />
+          <Parameter Name="PhotoURL" Type="varchar" Mode="In" />
           <Parameter Name="AccountNumber" Type="numeric" Mode="In" />
           <Parameter Name="responseMessage" Type="nvarchar" Mode="InOut" />
         </Function>
@@ -221,6 +222,21 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
             <Parameter Name="EndPoint" Mode="In" Type="Int32" />
             <Parameter Name="responseMessage" Mode="InOut" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="PR_CreatePoint">
+            <Parameter Name="Latitude" Mode="In" Type="String" />
+            <Parameter Name="Longitude" Mode="In" Type="String" />
+            <Parameter Name="IdPoint" Mode="InOut" Type="Int32" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_HikerLogin">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
+            <Parameter Name="IdCard" Mode="InOut" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_GetUser" ReturnType="Collection(AruKamiModel.PR_GetUser_Result)">
+          <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+          </FunctionImport>
           <FunctionImport Name="PR_CreateHiker">
             <Parameter Name="IdCard" Mode="In" Type="Decimal" />
             <Parameter Name="Username" Mode="In" Type="String" />
@@ -232,23 +248,9 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
             <Parameter Name="Gender" Mode="In" Type="String" />
             <Parameter Name="BirthDate" Mode="In" Type="DateTime" />
             <Parameter Name="Nationality" Mode="In" Type="Int32" />
+            <Parameter Name="PhotoURL" Mode="In" Type="String" />
             <Parameter Name="AccountNumber" Mode="In" Type="Decimal" />
             <Parameter Name="responseMessage" Mode="InOut" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="PR_CreatePoint">
-            <Parameter Name="Latitude" Mode="In" Type="String" />
-            <Parameter Name="Longitude" Mode="In" Type="String" />
-            <Parameter Name="IdPoint" Mode="InOut" Type="Int32" />
-            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="PR_GetUser" ReturnType="Collection(AruKamiModel.PR_GetUser_Result)">
-          <Parameter Name="IdCard" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="PR_HikerLogin">
-            <Parameter Name="Username" Mode="In" Type="String" />
-            <Parameter Name="Password" Mode="In" Type="String" />
-            <Parameter Name="responseMessage" Mode="InOut" Type="String" />
-            <Parameter Name="IdCard" Mode="InOut" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="PR_GetUser_Result">
@@ -262,6 +264,7 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
           <Property Type="DateTime" Name="BirthDate" Nullable="false" />
           <Property Type="Int32" Name="Nationality" Nullable="false" />
           <Property Type="Decimal" Name="AccountNumber" Nullable="false" Precision="20" Scale="0" />
+          <Property Type="String" Name="PhotoURL" Nullable="true" MaxLength="255" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -318,8 +321,8 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="PR_CreateHike" FunctionName="AruKamiModel.Store.PR_CreateHike" />
-          <FunctionImportMapping FunctionImportName="PR_CreateHiker" FunctionName="AruKamiModel.Store.PR_CreateHiker" />
           <FunctionImportMapping FunctionImportName="PR_CreatePoint" FunctionName="AruKamiModel.Store.PR_CreatePoint" />
+          <FunctionImportMapping FunctionImportName="PR_HikerLogin" FunctionName="AruKamiModel.Store.PR_HikerLogin" />
           <FunctionImportMapping FunctionImportName="PR_GetUser" FunctionName="AruKamiModel.Store.PR_GetUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AruKamiModel.PR_GetUser_Result">
@@ -333,10 +336,11 @@ warning 6002: The table/view 'AruKami.dbo.Nationalities' does not have a primary
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="Nationality" ColumnName="Nationality" />
                 <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="PhotoURL" ColumnName="PhotoURL" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="PR_HikerLogin" FunctionName="AruKamiModel.Store.PR_HikerLogin" />
+          <FunctionImportMapping FunctionImportName="PR_CreateHiker" FunctionName="AruKamiModel.Store.PR_CreateHiker" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

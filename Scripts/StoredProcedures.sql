@@ -35,6 +35,7 @@ CREATE PROCEDURE [PR_CreateHiker] (
 	@Gender CHAR(1),
     @BirthDate DATE,
     @Nationality INT,
+	@PhotoURL VARCHAR(255),
 	@AccountNumber NUMERIC(20),
 	@responseMessage NVARCHAR(250) OUTPUT
 ) AS BEGIN
@@ -42,7 +43,7 @@ CREATE PROCEDURE [PR_CreateHiker] (
 	IF @responseMessage = 'Success'
 	BEGIN
 		BEGIN TRY
-			INSERT INTO [Hiker](IdCard, [Gender], [BirthDate], [Nationality], [AccountNumber]) VALUES (@IdCard, @Gender, @BirthDate, @Nationality, @AccountNumber)
+			INSERT INTO [Hiker](IdCard, [Gender], [BirthDate], [Nationality], [AccountNumber], [PhotoURL]) VALUES (@IdCard, @Gender, @BirthDate, @Nationality, @AccountNumber,@PhotoURL)
 		SET @responseMessage = 'Success'
 		END TRY
 		BEGIN CATCH
@@ -167,7 +168,7 @@ CREATE PROCEDURE [PR_ActiveHiker](
 END
 GO
 
-ALTER PROCEDURE [PR_CreateHike](
+CREATE PROCEDURE [PR_CreateHike](
 	@Name VARCHAR(100),
 	@StartDate DATETIME,
 	@EndDate DATETIME,

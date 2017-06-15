@@ -18,6 +18,7 @@ namespace AruKami.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string SecondLastName { get; set; }
+        public String Photo { get; set; }
     }
 
 }
