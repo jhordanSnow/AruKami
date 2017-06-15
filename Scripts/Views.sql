@@ -21,10 +21,12 @@ GO
 
 
 CREATE VIEW [UserDetails] AS
-Select U.IdCard,U.Username,U.FirstName,U.MiddleName,U.LastName,U.SecondLastName, H.Gender, H.BirthDate, H.Nationality, H.AccountNumber, H.Photo
- from [dbo].[User] U
+SELECT U.IdCard,U.Username,U.FirstName,U.MiddleName,U.LastName,U.SecondLastName, H.Gender, H.BirthDate, H.Nationality, H.AccountNumber, H.PhotoURL
+FROM [dbo].[User] U
 INNER JOIN [dbo].[Hiker] H ON U.IdCard = H.IdCard
 GO
+
+
 
 -- Administrador
 CREATE VIEW [View_User] AS

@@ -166,7 +166,7 @@ CREATE PROCEDURE [PR_ActiveHiker](
 END
 GO
 
-ALTER PROCEDURE [PR_CreateHike](
+CREATE PROCEDURE [PR_CreateHike](
 	@Name VARCHAR(100),
 	@StartDate DATETIME,
 	@EndDate DATETIME,
@@ -271,3 +271,4 @@ CREATE PROCEDURE [PR_EditQuality](
 	UPDATE Quality SET [Name] = @Name WHERE IdQuality = @Id
 END
 GO
+

@@ -31,27 +31,32 @@ namespace AruKami.Controllers
             {
                 return BadRequest(ModelState);
             }
-            String filePath = null;
-            String relativePath = "~/Images/" + user.IdCard + ".jpg";
+
+            String relativePath = null;
             if (user.Photo != null)
             {
-                byte[] bytes = Convert.FromBase64String(user.Photo);
-                Image image;
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    image = Image.FromStream(ms);
-                    filePath = HostingEnvironment.MapPath(relativePath);
-                    image.Save(filePath);
-                }
-                
+                relativePath = "~/Images/Users/Profile Pictures/" + user.IdCard + ".jpg";
             }
-            
-
             ObjectParameter output = new ObjectParameter("responseMessage", typeof(string));
             db.PR_CreateHiker(user.IdCard, user.Username, user.Password, user.FirstName, user.MiddleName, user.LastName,
                 user.SecondLastName, user.Gender, user.BirthDate, user.Nationality, relativePath, user.AccountNumber, output);
             JsonResponse response = new JsonResponse(){Response = output.Value.ToString()};
+            if (response.Response == "Success" && relativePath != null)
+            {  
+                savePhoto(user.Photo, relativePath);
+            }
             return Ok(response);
+        }
+
+        public void savePhoto(String Photo, String path)
+        {
+            byte[] bytes = Convert.FromBase64String(Photo);
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                Image image = Image.FromStream(ms);
+                String filePath = HostingEnvironment.MapPath(path);
+                image.Save(filePath);
+            }
         }
 
         // POST: api/Login
@@ -121,7 +126,7 @@ namespace AruKami.Controllers
 
         public void DeletePhoto(int id)
         {
-            String filePath = HostingEnvironment.MapPath("~/Images/"+id+".jpg");
+            String filePath = HostingEnvironment.MapPath("~/Images/Users/Profile Pictures/" + id+".jpg");
             File.Delete(filePath);
         }
     }
